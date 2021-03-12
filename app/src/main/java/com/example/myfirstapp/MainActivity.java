@@ -7,25 +7,24 @@ import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.example.irememeberwhen.CREATEROOM";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
+            //open up CreateRoomActivity
             public void createRoom (View view) {
-                //go to CreateRoom Activity
                 Intent intent = new Intent(this, CreateRoomActivity.class);
                 startActivity(intent);
             }
 
+            //open up JoinRoomActivity
             public void joinRoom (View view){
-                Toast.makeText(getApplicationContext(),"No Rooms to Join (TODO)", Toast.LENGTH_SHORT).show();
-                //TODO create joinRoom Activity
-
-                /* Intent intent = new Intent(this, JoinRoomActivity.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(this, JoinRoomActivity.class);
+                startActivity(intent);
+                //TODO if no rooms available uncomment toast
+                // Toast.makeText(getApplicationContext(),"No Rooms to Join", Toast.LENGTH_SHORT).show();
             }
 
 }

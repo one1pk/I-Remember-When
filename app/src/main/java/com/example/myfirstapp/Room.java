@@ -12,7 +12,7 @@ public class Room {
     }
 
     public Room(int roomId) {
-        //TODO: Why are we incrementing this?
+        //TODO: increment vs generate new pin
         roomId = roomId >= 9999 ? 1000 : roomId + 1;
         this.roomId = roomId;
     }
@@ -21,8 +21,9 @@ public class Room {
         return this.roomId;
     }
 
+    /* TODO further implementation of room class
     @Override
     public boolean equals(Object other) {
         return other instanceof Room && this.roomId == ((Room) other).getRoomId();
-    }
+    }*/
 }
