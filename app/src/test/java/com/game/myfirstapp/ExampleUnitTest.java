@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.game.myfirstapp;
 
 import org.junit.Test;
 
