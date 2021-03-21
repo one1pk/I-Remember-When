@@ -1,4 +1,4 @@
-package com.game.myfirstapp;
+package com.game.rememberwhen;
 
 import org.junit.Test;
 
