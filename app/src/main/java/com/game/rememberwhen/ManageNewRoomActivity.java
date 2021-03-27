@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.game.rememberwhen.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -28,9 +27,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-// CreateRoomActivity acts as a game room lobby. Host stays while player joins
+// ManageNewRoomActivity acts as a game room lobby. Host stays while player joins
 // Player list gets updated while user joins using Pub-Sub events on Firebase
-public class CreateRoomActivity extends AppCompatActivity {
+public class ManageNewRoomActivity extends AppCompatActivity {
     Player player;
     Room room;
     List playerList = new ArrayList<Player>();
@@ -41,7 +40,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_room);
+        setContentView(R.layout.activity_manage_new_room);
         Bundle b = getIntent().getExtras();
         players_list_view = (RecyclerView) findViewById(R.id.playersListView);
         players_list_view.setLayoutManager(new LinearLayoutManager(this));
@@ -59,7 +58,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(CreateRoomActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ManageNewRoomActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                         }
                         if (value.exists()) {
                             final HashMap<String, Object> roomData = (HashMap<String, Object>) value.getData();
@@ -146,7 +145,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
-            super(LayoutInflater.from(CreateRoomActivity.this).inflate(R.layout.player_list_item, container, false));
+            super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));
             playerName = (TextView) itemView.findViewById(R.id.playerNameText);
             playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
 //            playerAvatar =(ImageView)itemView.findViewById(R.id.playerImageView);
