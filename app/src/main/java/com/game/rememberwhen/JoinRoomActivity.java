@@ -43,7 +43,7 @@ public class JoinRoomActivity extends AppCompatActivity {
     // Try to find given room Id on Firebase if true transfer user to CreateRoomActivity as LobbyRoom
 
     public void findRoom(View view) {
-        //TODO create and connect to game waiting room
+        // TODO create and connect to game waiting room
 //        Toast.makeText(getApplicationContext(),"No Rooms Available", Toast.LENGTH_SHORT).show();
         /*lines below will get code from user, check if it is valid and send user to the matching room */
 
