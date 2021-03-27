@@ -8,18 +8,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-/*
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-*/
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class StorytellerActivity extends AppCompatActivity {
-    //private FirebaseDatabase database;
+    private FirebaseDatabase database;
 
     private Prompt prompt;
 
@@ -36,8 +36,7 @@ public class StorytellerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle b = getIntent().getExtras();
     }
-    // Firebase not needed?
-/*
+
     private void loadDataset() {
         DatabaseReference myDBRef = database.getReference().child("db").child("prompts");
         // Read from database
@@ -63,7 +62,7 @@ public class StorytellerActivity extends AppCompatActivity {
         });
         }
 
- */
+
     // Randomize order of prompts for each new game room
     private void randomizePrompts() {
         Collections.shuffle(dataset);
