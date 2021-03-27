@@ -109,7 +109,7 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     public void readyUp(View view) {
         Toast.makeText(getApplicationContext(), "Room not Ready (TODO)", Toast.LENGTH_SHORT).show();
-        //TODO create Game Beginning activity - rules?
+        //TODO create Game Rules activity
     }
 
     // Adapters are used to bind dynamic list of data with a static re-usable List or any kind of Custom List views such as player_list_item.xml into

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,6 +25,8 @@ public class StorytellerActivity extends AppCompatActivity {
     private Prompt prompt;
 
     private TextView promptTextView;
+    private Button lieButton;
+    private Button truthButton;
 
     private int promptCounter = 0;
 
@@ -32,6 +35,7 @@ public class StorytellerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_storyteller);
         // Get the intent that started this activity
         Intent intent = getIntent();
         Bundle b = getIntent().getExtras();
