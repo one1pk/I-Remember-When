@@ -108,10 +108,14 @@ public class CreateRoomActivity extends AppCompatActivity {
 
     }
 
-    //button logic
+    //functions for buttons
     public void readyUp(View view) {
         Toast.makeText(getApplicationContext(), "Room not Ready (TODO)", Toast.LENGTH_SHORT).show();
         //TODO go to game page
+    }
+    public void openRules(View view) {
+        Intent intent = new Intent(this, RulesActivity.class);
+        startActivity(intent);
     }
 
     // Adapters are used to bind dynamic list of data with a static re-usable List or any kind of Custom List views such as player_list_item.xml into

@@ -1,6 +1,7 @@
 package com.game.rememberwhen;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +13,7 @@ public class RulesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules);
     }
-    public void closeRules(){
+    public void closeRules(View view){
         finish();
     }
 }
