@@ -1,3 +1,4 @@
+/* Join Room Layout Activity class*/
 package com.game.rememberwhen;
 
 import android.content.Intent;
@@ -5,10 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.game.rememberwhen.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,11 +16,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Join Room Layout Activity class
+
 public class JoinRoomActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     Player player;

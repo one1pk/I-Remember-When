@@ -1,4 +1,12 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">I Remember When…</string>
     <string name="edit_message">Enter Game Code</string>
+    <string name="create_room">Create Room</string>
+    <string name="join_room">Join Room</string>
+    <string name="player_name">Enter Your Name Here</string>
+    <string name="ready">Ready</string>
+    <string name="create_message">Share this 4 digit code with your friends. When all have joined hit the ready button</string>
+    <string name="join_message">Enter the Game Code that you have been given:</string>
+
+
 </resources>

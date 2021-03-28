@@ -1,3 +1,5 @@
+/* CreateRoomActivity acts as a game room lobby. Host stays while player joins
+ Player list gets updated while user joins using Pub-Sub events on Firebase*/
 package com.game.rememberwhen;
 
 import android.content.Intent;
@@ -28,8 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-// CreateRoomActivity acts as a game room lobby. Host stays while player joins
-// Player list gets updated while user joins using Pub-Sub events on Firebase
+
 public class CreateRoomActivity extends AppCompatActivity {
     Player player;
     Room room;
@@ -107,10 +108,10 @@ public class CreateRoomActivity extends AppCompatActivity {
 
     }
 
-
+    //button logic
     public void readyUp(View view) {
         Toast.makeText(getApplicationContext(), "Room not Ready (TODO)", Toast.LENGTH_SHORT).show();
-        //TODO create Game Beginning activity - rules?
+        //TODO go to game page
     }
 
     // Adapters are used to bind dynamic list of data with a static re-usable List or any kind of Custom List views such as player_list_item.xml into
