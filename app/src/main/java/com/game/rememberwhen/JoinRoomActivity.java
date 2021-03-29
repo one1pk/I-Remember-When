@@ -1,3 +1,4 @@
+/* Join Room Layout Activity class*/
 package com.game.rememberwhen;
 
 import android.content.Intent;
@@ -20,7 +21,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Join Room Layout Activity class
 public class JoinRoomActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     Player player;
