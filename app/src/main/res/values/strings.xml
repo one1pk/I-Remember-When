@@ -1,4 +1,44 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">I Remember When…</string>
     <string name="edit_message">Enter Game Code</string>
+    <string name="create_room">Create Room</string>
+    <string name="join_room">Join Room</string>
+    <string name="player_name">Enter Your Name Here</string>
+    <string name="ready">Ready</string>
+    <string name="create_message">Share this 4 digit code with your friends. When all have joined hit the ready button</string>
+    <string name="join_message">Enter the Game Code that you have been given:</string>
+    <string name="rules">Rules</string>
+    <string name="rules_title">Game Rules</string>
+    <string name="rules_ov_title">Overview</string>
+    <string name="rules_ov_content">This is a conversation-based game that prompts players to tell stories, which the other players must determine whether it is true or not. \nEach turn one player will be the <b>storyteller</b>, the others will be <b>listeners</b></string>
+    <string name="rules_obj_title">Objective</string>
+    <string name="rules_obj_content"> <b>Storyteller</b>
+         \n\nTell your story. If you make your story up then you must defend your story to trick your fellow players into believing that it truly happened. \n\nPlayers believe your lie? <font color='#29B95A'>+ 20 points</font>
+        \n(per listener convinced)
+        \n\nSafely tell a true story? <font color='#29B95A'>+ 10 points</font> \n(per listener convinced)
+        \nNo one believes your lie? <font color='#DC625C'>- 20 points</font>\n\n\n<b>Listeners</b>
+         \n\nListen to the story and try to figure out whether the Storyteller is telling a real story from personal experience, or are making it up. You will have the chance after they tell their story to question them, and guess if its true or not.  
+        \n\nGuess correctly? <font color='#29B95A'>+ 10 points </font>
+        \n\nGet duped by a fake story? <font color='#DC625C'>- 5 points</font> \n\n  Falsely accuse a player of lying <b>or</b> fail to guess in time? <font color='#DC625C'>- 10 points</font></string>
+    <string name="rules_win_title">How to Win</string>
+    <string name="rules_win_content">Either the first person to <b>500 points</b> or the person with the <b>highest score after 10 rounds</b> will be declared the winner</string>
+    <string name="rules_exit">Close Rules</string>
+    <string name="role_storyteller">Storyteller</string>
+    <string name="role_listener">Listener</string>
+    <string name="rules_obj_storyteller">Tell your story. If you make your story up then you must defend your story to trick your fellow players into believing that it truly happened.</string>
+    <string name="rules_obj_story_pts_line1">Players believe your lie?</string>
+    <string name="rules_obj_story_pts_line2">Safely tell a true story?</string>
+    <string name="rules_obj_story_pts_line3">No one believes your lie?</string>
+    <string name="rules_obj_per_listener">(per listener convinced)</string>
+    <string name="rules_obj_listener">Listen to the story and try to figure out whether the Storyteller is telling a real story from personal experience, or are making it up. You will have the chance after they tell their story to question them, and guess if its true or not.</string>
+    <string name="rules_obj_listener_pts_line1">Guess correctly?</string>
+    <string name="rules_obj_listener_pts_line2">Get duped by a fake story?</string>
+    <string name="rules_obj_listener_pts_line3">Falsely accuse a player of lying or fail to guess in time?</string>
+    <string name="points">Points</string>
+    <string name="rules_pts_plus20">+ 20</string>
+    <string name="rules_pts_plus10">+ 10</string>
+    <string name="rules_pts_min20">- 20</string>
+    <string name="rules_pts_min10">- 10</string>
+    <string name="rules_pts_min5">-5</string>
+
 </resources>
