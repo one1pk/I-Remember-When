@@ -17,7 +17,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.game.rememberwhen.MainActivity" />
         </activity>
-        <activity android:name="com.game.rememberwhen.CreateRoomActivity"
+        <activity android:name="com.game.rememberwhen.ManageNewRoomActivity"
             android:parentActivityName = "com.game.rememberwhen.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

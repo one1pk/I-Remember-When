@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.game.rememberwhen.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -40,14 +39,14 @@ public class JoinRoomActivity extends AppCompatActivity {
     }
 
     // Check the code given by user is valid, connect user to open room
-    // Try to find given room Id on Firebase if true transfer user to CreateRoomActivity as LobbyRoom
+    // Try to find given room Id on Firebase if true transfer user to ManageNewRoomActivity as LobbyRoom
 
     public void findRoom(View view) {
-        //TODO create and connect to game waiting room
+        // TODO create and connect to game waiting room
 //        Toast.makeText(getApplicationContext(),"No Rooms Available", Toast.LENGTH_SHORT).show();
         /*lines below will get code from user, check if it is valid and send user to the matching room */
 
-        final Intent intent = new Intent(this, CreateRoomActivity.class);
+        final Intent intent = new Intent(this, ManageNewRoomActivity.class);
         final Intent backtoMain = new Intent(this, MainActivity.class);
         EditText editText = findViewById(R.id.JoiningRoomID);
         final String userEnteredID = editText.getText().toString();

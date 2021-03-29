@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
-import com.game.rememberwhen.R;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
                         Bundle b = new Bundle();
                         b.putSerializable("player", new Gson().toJson(player));
                         b.putString("roomId", String.valueOf(room.getRoomId()));
-                        Intent intent = new Intent(MainActivity.this, CreateRoomActivity.class);
+                        Intent intent = new Intent(MainActivity.this, ManageNewRoomActivity.class);
                         intent.putExtras(b);
-                        startActivity(intent); // Transition to CreateRoomActivity.class/layout
+                        startActivity(intent); // Transition to ManageNewRoomActivity.class/layout
                     }
                 });
 //            .addOnFailureListener(new OnFailureListener() {
