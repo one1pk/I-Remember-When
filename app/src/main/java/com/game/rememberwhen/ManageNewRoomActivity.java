@@ -112,8 +112,9 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     // functions for buttons
     public void readyUp(View view) {
-        Toast.makeText(getApplicationContext(), "Room not Ready (TODO)", Toast.LENGTH_SHORT).show();
-        //TODO go to game page
+        final Intent intentHost = new Intent(this, StorytellerActivity.class);
+        final Intent intentRest = new Intent(this, ListenerActivity.class);
+        startActivity(intentHost);
     }
     public void openRules(View view) {
         Intent intent = new Intent(this, RulesActivity.class);
