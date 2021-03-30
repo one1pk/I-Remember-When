@@ -51,7 +51,10 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         players_list_view.setAdapter(adapter);
         if (b.get("player") == null) {
             // For new player being transferred from JoinRoomActivity
+
+
             if (b.get("users") != null) {
+
                 room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
                 FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                 CollectionReference collection = fStore.collection("/rooms");
@@ -162,5 +165,21 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             playerName.setText(playerBinder.getName());
             playerScore.setText("Score: " + playerBinder.getScore());
         }
+
     }
+
+    // set the host story teller and others listener
+    public class firstSet {
+
+        public void firstSet(List<Player> playerList){
+
+           playerList.get(0).setStatus("storyteller");
+           for(int i=1;i<playerList.size();i++)
+           {
+               playerList.get(i).setStatus("listener");
+           }
+
+        }
+    }
+
 }
