@@ -1,7 +1,6 @@
 /* ManageNewRoomActivity acts as a game room lobby. Host stays while player joins
  Player list gets updated while user joins using Pub-Sub events on Firebase*/
 
-
 package com.game.rememberwhen;
 
 import android.content.Intent;
@@ -20,12 +19,16 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,10 +36,14 @@ import java.util.List;
 
 public class ManageNewRoomActivity extends AppCompatActivity {
     Player player;
+    boolean host = true;
     Room room;
     List playerList = new ArrayList<Player>();
     TextView playersListText;
     RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
+
+    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+    CollectionReference collection = fStore.collection("/rooms");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +61,8 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         if (b.get("player") == null) {
             // For new player being transferred from JoinRoomActivity
             if (b.get("users") != null) {
+                host = false;
                 room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
-                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                CollectionReference collection = fStore.collection("/rooms");
                 collection.document(String.valueOf(b.get("roomId"))).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     //AddSnapShotListner creats Publisher-Subscriber connection to given /rooms/ROOMID path and updates when new data inserted
                     @Override
@@ -112,8 +118,15 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     // functions for buttons
     public void readyUp(View view) {
-        Toast.makeText(getApplicationContext(), "Room not Ready (TODO)", Toast.LENGTH_SHORT).show();
-        //TODO go to game page
+        final Intent intentHost = new Intent(this, StorytellerActivity.class);
+        final Intent intentRest = new Intent(this, ListenerActivity.class);
+        // Assign host player as storyteller to begin
+        if(host) {
+            startActivity(intentHost);
+        }
+        else {
+            startActivity(intentRest);
+        }
     }
     public void openRules(View view) {
         Intent intent = new Intent(this, RulesActivity.class);
