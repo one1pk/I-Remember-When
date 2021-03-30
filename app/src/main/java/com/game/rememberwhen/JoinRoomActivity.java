@@ -44,8 +44,8 @@ public class JoinRoomActivity extends AppCompatActivity {
     public void findRoom(View view) {
         // TODO create and connect to game waiting room
 //        Toast.makeText(getApplicationContext(),"No Rooms Available", Toast.LENGTH_SHORT).show();
-        /*lines below will get code from user, check if it is valid and send user to the matching room */
 
+        /*lines below will get code from user, check if it is valid and send user to the matching room */
         final Intent intent = new Intent(this, ManageNewRoomActivity.class);
         final Intent backtoMain = new Intent(this, MainActivity.class);
         EditText editText = findViewById(R.id.JoiningRoomID);
