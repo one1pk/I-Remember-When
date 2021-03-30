@@ -12,17 +12,17 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:fontFamily="@font/cabin"
+        android:gravity="center_horizontal"
         android:inputType="textMultiLine"
-        android:text="Prompt"
+        android:text="@string/storyteller_prompt_display"
+        android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/textViewDisplayRoomID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewStoryteller"
-        android:gravity="center_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewStoryteller" />
 
     <TextView
         android:id="@+id/textViewStoryteller"
@@ -33,8 +33,8 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="28dp"
         android:layout_marginRight="18dp"
-        android:text="You are the Storyteller!"
         android:fontFamily="@font/cabin_semibold"
+        android:text="@string/storyteller_title"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewPrompt"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
         android:layout_marginBottom="80dp"
         android:fontFamily="@font/cabin"
         android:gravity="center_horizontal"
-        android:text="Do you want to tell a true story or make it up?"
+        android:text="@string/storyteller_btn_prompt"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -65,27 +65,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/cabin"
-        android:text="Tell the Truth"
+        android:text="@string/storyteller_true_btn"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/lieButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDecision"
-        app:layout_constraintVertical_bias="0.0"  />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/lieButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="40dp"
         android:fontFamily="@font/cabin"
-        android:text="Make It Up"
+        android:text="@string/storyteller_false_btn"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/truthButton"
-        app:layout_constraintVertical_bias="0.0"  />
+        app:layout_constraintTop_toBottomOf="@+id/truthButton" />
+
+    <Button
+        android:id="@+id/sRulesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/cabin"
+        android:onClick="openRules"
+        android:text="@string/rules"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

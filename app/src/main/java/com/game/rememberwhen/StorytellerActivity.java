@@ -77,6 +77,12 @@ public class StorytellerActivity extends AppCompatActivity {
         promptTextView.setText(dataset.get(promptCounter).prompt);
     }
 
+    //enable listener activity to retrieve prompt
+    public Prompt getPrompt(){
+        return prompt;
+    }
+
+
     // TODO: Round timer and EndRound functionality
     /*
     private void startTimer() {
@@ -110,4 +116,9 @@ public class StorytellerActivity extends AppCompatActivity {
     }
      */
 
+    //function called when 'Rules' button pressed (onClick in .xml)
+    public void openRules(View view) {
+        Intent intent = new Intent(this, RulesActivity.class);
+        startActivity(intent);
+    }
 }

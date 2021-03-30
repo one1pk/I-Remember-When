@@ -44,6 +44,8 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_new_room);
         Bundle b = getIntent().getExtras();
+
+        //list of players
         players_list_view = (RecyclerView) findViewById(R.id.playersListView);
         players_list_view.setLayoutManager(new LinearLayoutManager(this));
         players_list_view.addItemDecoration(new DividerItemDecoration(players_list_view.getContext(), DividerItemDecoration.VERTICAL));
