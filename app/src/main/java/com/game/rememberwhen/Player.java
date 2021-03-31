@@ -5,6 +5,7 @@ public class Player {
     private String name;
     private int roomId;
     private int score;
+    private String status;
 
     // Default Constructor
     public Player() {
@@ -49,5 +50,14 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public void setStatus(String status) {
+        this.status=status;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
 }
 

@@ -99,14 +99,15 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             TextView displayRoomID = findViewById(R.id.textViewDisplayRoomID);
             displayRoomID.setText("roomCode not Found");
         }
-
+        Toast.makeText(ManageNewRoomActivity.this, "Player 1 is: " + ((Player)playerList.get(0)).getName(), Toast.LENGTH_LONG).show();
     }
 
 
     public void readyUp(View view) {
+        setStatus();
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
         final Intent intentRest = new Intent(this, ListenerActivity.class);
-        if (player.equals(playerList.get(0))) {
+        if (player.getStatus() == "storyteller") {
             startActivity(intentHost);
         }
         else {
@@ -163,4 +164,15 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             // playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
+
+    // set the host as storyteller and others as listener
+    public void setStatus() {
+        ((Player)playerList.get(0)).setStatus("storyteller");
+           for(int i=1;i<playerList.size();i++)
+        {
+            ((Player)playerList.get(i)).setStatus("listener");
+        }
+
+    }
+
 }
