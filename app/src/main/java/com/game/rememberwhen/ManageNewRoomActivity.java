@@ -1,6 +1,5 @@
 /* ManageNewRoomActivity acts as a game room lobby. Host stays while player joins
  Player list gets updated while user joins using Pub-Sub events on Firebase*/
-
 package com.game.rememberwhen;
 
 import android.content.Intent;
@@ -19,16 +18,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.Task;
+import com.game.rememberwhen.R;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,14 +32,10 @@ import java.util.List;
 
 public class ManageNewRoomActivity extends AppCompatActivity {
     Player player;
-    boolean host = true;
     Room room;
     List playerList = new ArrayList<Player>();
     TextView playersListText;
     RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
-
-    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-    CollectionReference collection = fStore.collection("/rooms");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,49 +43,42 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_new_room);
         Bundle b = getIntent().getExtras();
-
-        //list of players
         players_list_view = (RecyclerView) findViewById(R.id.playersListView);
         players_list_view.setLayoutManager(new LinearLayoutManager(this));
         players_list_view.addItemDecoration(new DividerItemDecoration(players_list_view.getContext(), DividerItemDecoration.VERTICAL));
         final PlayersAdapter adapter = new PlayersAdapter(playerList);
         players_list_view.setAdapter(adapter);
-        if (b.get("player") == null) {
-            // For new player being transferred from JoinRoomActivity
-            if (b.get("users") != null) {
-                host = false;
-                room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
-                collection.document(String.valueOf(b.get("roomId"))).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    //AddSnapShotListner creats Publisher-Subscriber connection to given /rooms/ROOMID path and updates when new data inserted
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Toast.makeText(ManageNewRoomActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                        if (value.exists()) {
-                            final HashMap<String, Object> roomData = (HashMap<String, Object>) value.getData();
-                            System.out.println("+++Value " + roomData.values());
-                            ArrayList<Player> playerArrayList = (ArrayList<Player>) value.toObject(PlayerDocument.class).users;
-                            // Converts the Firestore data into arrayList
-                            playerList.addAll(playerArrayList);
-                            adapter.notifyDataSetChanged(); // By Default adapters work on assigned dataset so when we query firebase it takes some time so we have to tell adapter to update and display new data
-                            playersListText = findViewById(R.id.playersList);
-                            if (playerList.size() == 6) {
-                                playersListText.setText("Players are ready: ");
-                            } else {
-                                playersListText.setText("Players Being Added: ");
-                            }
-
-                        }
-
-                    }
-                });
-
-            }
-        } else {
+        room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
+        if (b.get("player") != null) {
+            // For host
             player = new Gson().fromJson(b.get("player").toString(), Player.class);
-            room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
         }
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        CollectionReference collection = fStore.collection("/rooms");
+        collection.document(String.valueOf(b.get("roomId"))).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            //AddSnapShotListner creats Publisher-Subscriber connection to given /rooms/ROOMID path and updates when new data inserted
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Toast.makeText(ManageNewRoomActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                if (value.exists()) {
+                    //  final HashMap<String, Object> roomData = (HashMap<String, Object>) value.getData();
+                    //System.out.println("+++Value " + roomData.values());
+                    ArrayList<Player> playerArrayList = (ArrayList<Player>) value.toObject(PlayerDocument.class).users;
+                    // Converts the Firestore data into arrayList
+                    playerList.clear();
+                    playerList.addAll(playerArrayList);
+                    adapter.notifyDataSetChanged(); // By Default adapters work on assigned dataset so when we query firebase it takes some time so we have to tell adapter to update and display new data
+                    playersListText = findViewById(R.id.playersList);
+                    if (playerList.size() == 6) {
+                        playersListText.setText("Players are ready: ");
+                    } else {
+                        playersListText.setText("Players Being Added: ");
+                    }
+                }
+            }
+        });
 
         adapter.notifyDataSetChanged();
         // Get the intent that started this activity
@@ -116,21 +101,10 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     }
 
-    // functions for buttons
+
     public void readyUp(View view) {
-        final Intent intentHost = new Intent(this, StorytellerActivity.class);
-        final Intent intentRest = new Intent(this, ListenerActivity.class);
-        // Assign host player as storyteller to begin
-        if(host) {
-            startActivity(intentHost);
-        }
-        else {
-            startActivity(intentRest);
-        }
-    }
-    public void openRules(View view) {
-        Intent intent = new Intent(this, RulesActivity.class);
-        startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Room not Ready (TODO)", Toast.LENGTH_SHORT).show();
+        //TODO create Game Beginning activity - rules?
     }
 
     // Adapters are used to bind dynamic list of data with a static re-usable List or any kind of Custom List views such as player_list_item.xml into
@@ -162,20 +136,19 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     class PlayersViewHolder extends RecyclerView.ViewHolder {
         private final TextView playerName;
-        private final TextView playerScore;
+        //private final TextView playerScore;
         private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
             super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));
             playerName = (TextView) itemView.findViewById(R.id.playerNameText);
-            playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
+            // playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
 //            playerAvatar =(ImageView)itemView.findViewById(R.id.playerImageView);
-
         }
 
         public void bind(Player playerBinder) {
             playerName.setText(playerBinder.getName());
-            playerScore.setText("Score: " + playerBinder.getScore());
+            // playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
 }
