@@ -99,14 +99,16 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             TextView displayRoomID = findViewById(R.id.textViewDisplayRoomID);
             displayRoomID.setText("roomCode not Found");
         }
-
+        // TODO Check who is registered as the first player
+        // Toast.makeText(ManageNewRoomActivity.this, "Player 1 is: " + ((Player)playerList.get(0)).getName(), Toast.LENGTH_LONG).show();
     }
 
 
     public void readyUp(View view) {
+        setStatus();
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
         final Intent intentRest = new Intent(this, ListenerActivity.class);
-        if (player.equals(playerList.get(0))) {
+        if (player.getStatus() == "storyteller") {
             startActivity(intentHost);
         }
         else {
@@ -148,19 +150,30 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     class PlayersViewHolder extends RecyclerView.ViewHolder {
         private final TextView playerName;
-        //private final TextView playerScore;
+        private final TextView playerScore;
         private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
             super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));
             playerName = (TextView) itemView.findViewById(R.id.playerNameText);
-            // playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
+            playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
 //            playerAvatar =(ImageView)itemView.findViewById(R.id.playerImageView);
         }
 
         public void bind(Player playerBinder) {
             playerName.setText(playerBinder.getName());
-            // playerScore.setText("Score: " + playerBinder.getScore());
+            playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
+
+    // set the host as storyteller and others as listener
+    public void setStatus() {
+        ((Player)playerList.get(0)).setStatus("storyteller");
+           for(int i=1;i<playerList.size();i++)
+        {
+            ((Player)playerList.get(i)).setStatus("listener");
+        }
+
+    }
+
 }

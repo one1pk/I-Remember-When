@@ -22,7 +22,7 @@ import java.util.Collections;
 public class StorytellerActivity extends AppCompatActivity {
     private FirebaseDatabase database;
 
-    private Prompt prompt;
+    static String prompt;
 
     private TextView promptTextView;
     private Button lieButton;
@@ -35,10 +35,10 @@ public class StorytellerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storyteller);
-        // Get the intent that started this activity
-        Intent intent = getIntent();
         Bundle b = getIntent().getExtras();
+        setContentView(R.layout.activity_storyteller);
+
+        loadDataset();
     }
 
     private void loadDataset() {
@@ -74,11 +74,12 @@ public class StorytellerActivity extends AppCompatActivity {
 
     private void showPrompt() {
         promptTextView = findViewById(R.id.textViewPrompt); // put in loadUI method?
-        promptTextView.setText(dataset.get(promptCounter).prompt);
+        prompt = dataset.get(promptCounter).prompt;
+        promptTextView.setText(prompt);
     }
 
     //enable listener activity to retrieve prompt
-    public Prompt getPrompt(){
+    static String getPrompt(){
         return prompt;
     }
 
