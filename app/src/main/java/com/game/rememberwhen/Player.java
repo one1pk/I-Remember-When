@@ -2,9 +2,9 @@ package com.game.rememberwhen;
 
 // POJO / Model Class for Player Entity
 public class Player {
-    public String name;
-    public int roomId;
-    public int score;
+    private String name;
+    private int roomId;
+    private int score;
 
     // Default Constructor
     public Player() {
@@ -14,6 +14,15 @@ public class Player {
     public Player(String name, int score) {
         this.name = name;
         this.score = score;
+    }
+
+    public boolean equals(Player p1) {
+        if((name == p1.getName()) && (roomId == p1.getRoomId()) && (score == p1.getScore())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     // Getter and Setter methods

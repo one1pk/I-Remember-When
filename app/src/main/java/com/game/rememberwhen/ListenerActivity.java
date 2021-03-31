@@ -14,6 +14,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         setContentView(R.layout.activity_listener);
 
+        loadUI();
     }
 
     public void openRules(View view) {
@@ -22,10 +23,10 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
     }
 
     //TODO import current prompt, storyteller, and when done telling the story from StorytellerActivity.java
-    //display prompt
-    /*String prompt = String.valueOf(StorytellerActivity.getPrompt());
-    TextView Prompt = findViewById(R.id.displayPrompt);
-    Prompt.setText(prompt);
-    */
+    private void loadUI() {
+        //display prompt
+        TextView Prompt = findViewById(R.id.displayPrompt);
+        Prompt.setText(StorytellerActivity.getPrompt());
+    }
 
 }
