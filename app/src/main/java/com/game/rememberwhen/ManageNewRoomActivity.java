@@ -99,7 +99,8 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             TextView displayRoomID = findViewById(R.id.textViewDisplayRoomID);
             displayRoomID.setText("roomCode not Found");
         }
-        Toast.makeText(ManageNewRoomActivity.this, "Player 1 is: " + ((Player)playerList.get(0)).getName(), Toast.LENGTH_LONG).show();
+        // TODO Check who is registered as the first player
+        // Toast.makeText(ManageNewRoomActivity.this, "Player 1 is: " + ((Player)playerList.get(0)).getName(), Toast.LENGTH_LONG).show();
     }
 
 
@@ -149,19 +150,19 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     class PlayersViewHolder extends RecyclerView.ViewHolder {
         private final TextView playerName;
-        //private final TextView playerScore;
+        private final TextView playerScore;
         private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
             super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));
             playerName = (TextView) itemView.findViewById(R.id.playerNameText);
-            // playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
+            playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
 //            playerAvatar =(ImageView)itemView.findViewById(R.id.playerImageView);
         }
 
         public void bind(Player playerBinder) {
             playerName.setText(playerBinder.getName());
-            // playerScore.setText("Score: " + playerBinder.getScore());
+            playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
 
