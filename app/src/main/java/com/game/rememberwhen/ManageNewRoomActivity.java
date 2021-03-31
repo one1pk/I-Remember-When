@@ -31,11 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ManageNewRoomActivity extends AppCompatActivity {
-    Player player;
-    Room room;
-    List playerList = new ArrayList<Player>();
-    TextView playersListText;
-    RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
+    private Player player;
+    private boolean host = true;
+    private Room room;
+    private List playerList = new ArrayList<Player>();
+    private TextView playersListText;
+    private RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +104,19 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
 
     public void readyUp(View view) {
-        Toast.makeText(getApplicationContext(), "Room not Ready (TODO)", Toast.LENGTH_SHORT).show();
-        //TODO create Game Beginning activity - rules?
+        final Intent intentHost = new Intent(this, StorytellerActivity.class);
+        final Intent intentRest = new Intent(this, ListenerActivity.class);
+        if (player.equals(playerList.get(0))) {
+            startActivity(intentHost);
+        }
+        else {
+            startActivity(intentRest);
+        }
+    }
+
+    public void openRules(View view) {
+        final Intent intent = new Intent(this, RulesActivity.class);
+        startActivity(intent);
     }
 
     // Adapters are used to bind dynamic list of data with a static re-usable List or any kind of Custom List views such as player_list_item.xml into
