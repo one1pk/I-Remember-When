@@ -30,7 +30,7 @@ public class Score {
                 playersListText.setText("Winner found");
             }
 
-            if (playerList.get(i).getStatus().equals("storyTeller")) {
+            if (playerList.get(i).getStatus().equals("storyteller")) {
                 if (answer.equals("truth")) {
                     switch (respond) {
                         case "truth":

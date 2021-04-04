@@ -12,18 +12,14 @@ public class Player {
     }
 
     // Overridden constructor
-    public Player(String name, int score) {
+    public Player(String name, int score, String status) {
         this.name = name;
         this.score = score;
+        this.status = status;
     }
 
     public boolean equals(Player p1) {
-        if((name == p1.getName()) && (roomId == p1.getRoomId()) && (score == p1.getScore())) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (name.equals(p1.getName())) && (roomId == p1.getRoomId()) && (score == p1.getScore());
     }
 
     // Getter and Setter methods

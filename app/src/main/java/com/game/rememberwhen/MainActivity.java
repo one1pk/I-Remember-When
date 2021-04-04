@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         // Go to CreateRoom Activity
         EditText usernameText = findViewById(R.id.editTextTextPersonName);
         String userName = usernameText.getText().toString();
-        player = new Player(userName, 0); // Initial Score 0
+        // Initial Score 0; room creator will start the game as a storyteller
+        player = new Player(userName, 0, "storyteller");
         final Room room = new Room();
         player.setRoomId(room.getRoomId());
         CollectionReference fireStore = this.initFireStore().collection("/rooms"); // FireStore root node collection reference
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     // Join Room Button Click
     public void joinRoom(View view) {
 //        Toast.makeText(getApplicationContext(),"No Rooms to Join (TODO)", Toast.LENGTH_SHORT).show();
-        //TODO create joinRoom Activity
         EditText usernameText = findViewById(R.id.editTextTextPersonName);
         String userName = usernameText.getText().toString();
         if (b == null) {
@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public FirebaseFirestore initFireStore() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        return db;
+        return FirebaseFirestore.getInstance();
     }
 
 }

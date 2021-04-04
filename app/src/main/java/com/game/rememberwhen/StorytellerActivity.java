@@ -83,6 +83,10 @@ public class StorytellerActivity extends AppCompatActivity {
         return prompt;
     }
 
+    public void skipPrompt() {
+        prompt = dataset.get(++promptCounter).prompt;
+        promptTextView.setText(prompt);
+    }
 
     // TODO: Round timer and EndRound functionality
     /*
