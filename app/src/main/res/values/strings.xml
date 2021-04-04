@@ -55,6 +55,7 @@
     <string name="storyteller_start_story_btn">Tell my story</string>
     <string name="storyteller_end_story_btn">Story is Done</string>
     <string name="storyteller_defend">Defend your story to the listeners</string>
+    <string name="skip_prompt">Skip</string>
     <string name="reveal">storyteller was:</string>
     <string name="scoreboard">Scoreboard</string>
     <string name="winner">WINS!!</string>

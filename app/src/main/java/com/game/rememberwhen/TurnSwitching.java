@@ -7,7 +7,7 @@ public class TurnSwitching {
         //call this class when one round pass
         //find the storyteller and make it listener, assign storyteller status to the first next person
         for(int i = 0; i< playerList.size(); i++) {
-            if(playerList.get(i).getStatus().equals("storyTeller")) {
+            if(playerList.get(i).getStatus().equals("storyteller")) {
                 playerList.get(i).setStatus("listener");
                 playerList.get(i + 1).setStatus("storyteller");
             }

@@ -32,11 +32,13 @@ import java.util.List;
 
 public class ManageNewRoomActivity extends AppCompatActivity {
     private Player player;
-    private boolean host = true;
     private Room room;
     private List playerList = new ArrayList<Player>();
     private TextView playersListText;
     private RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
+    // Firestore room database reference
+    final private FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+    final private CollectionReference collection = fStore.collection("/rooms");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,6 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             // For host
             player = new Gson().fromJson(b.get("player").toString(), Player.class);
         }
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        CollectionReference collection = fStore.collection("/rooms");
         collection.document(String.valueOf(b.get("roomId"))).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             //AddSnapShotListner creats Publisher-Subscriber connection to given /rooms/ROOMID path and updates when new data inserted
             @Override
@@ -162,18 +162,20 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
         public void bind(Player playerBinder) {
             playerName.setText(playerBinder.getName());
-            playerScore.setText("Score: " + playerBinder.getScore());
+            // playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
 
     // set the host as storyteller and others as listener
     public void setStatus() {
+
+        /*
         ((Player)playerList.get(0)).setStatus("storyteller");
            for(int i=1;i<playerList.size();i++)
         {
             ((Player)playerList.get(i)).setStatus("listener");
         }
-
+        */
     }
 
 }
