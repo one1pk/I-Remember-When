@@ -36,9 +36,6 @@ public class ManageNewRoomActivity extends AppCompatActivity {
     private List playerList = new ArrayList<Player>();
     private TextView playersListText;
     private RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
-    // Firestore room database reference
-    final private FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-    final private CollectionReference collection = fStore.collection("/rooms");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +53,10 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             // For host
             player = new Gson().fromJson(b.get("player").toString(), Player.class);
         }
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        CollectionReference collection = fStore.collection("/rooms");
         collection.document(String.valueOf(b.get("roomId"))).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            //AddSnapShotListner creats Publisher-Subscriber connection to given /rooms/ROOMID path and updates when new data inserted
+            //addSnapshotListener creates Publisher-Subscriber connection to given /rooms/ROOMID path and updates when new data inserted
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -65,7 +64,7 @@ public class ManageNewRoomActivity extends AppCompatActivity {
                 }
                 if (value.exists()) {
                     //  final HashMap<String, Object> roomData = (HashMap<String, Object>) value.getData();
-                    //System.out.println("+++Value " + roomData.values());
+                    // System.out.println("+++Value " + roomData.values());
                     ArrayList<Player> playerArrayList = (ArrayList<Player>) value.toObject(PlayerDocument.class).users;
                     // Converts the Firestore data into arrayList
                     playerList.clear();
@@ -105,10 +104,9 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
 
     public void readyUp(View view) {
-        setStatus();
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
         final Intent intentRest = new Intent(this, ListenerActivity.class);
-        if (player.getStatus() == "storyteller") {
+        if (player.getStatus().equals("storyteller")) {
             startActivity(intentHost);
         }
         else {
@@ -150,13 +148,13 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     class PlayersViewHolder extends RecyclerView.ViewHolder {
         private final TextView playerName;
-        private final TextView playerScore;
+//        private final TextView playerScore;
         private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
             super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));
             playerName = (TextView) itemView.findViewById(R.id.playerNameText);
-            playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
+//            playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
 //            playerAvatar =(ImageView)itemView.findViewById(R.id.playerImageView);
         }
 
@@ -165,17 +163,4 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             // playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
-
-    // set the host as storyteller and others as listener
-    public void setStatus() {
-
-        /*
-        ((Player)playerList.get(0)).setStatus("storyteller");
-           for(int i=1;i<playerList.size();i++)
-        {
-            ((Player)playerList.get(i)).setStatus("listener");
-        }
-        */
-    }
-
 }
