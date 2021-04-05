@@ -10,7 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListenerActivity"></activity>
+        <activity
+            android:name=".StorytellerActivity"
+            android:parentActivityName=".ManageNewRoomActivity">
+        </activity>
+        <activity
+            android:name=".ListenerActivity"
+            android:parentActivityName=".ManageNewRoomActivity">
+        </activity>
         <activity
             android:name=".JoinRoomActivity"
             android:parentActivityName=".MainActivity"

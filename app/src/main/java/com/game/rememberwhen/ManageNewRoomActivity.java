@@ -37,12 +37,14 @@ public class ManageNewRoomActivity extends AppCompatActivity {
     private TextView playersListText;
     private RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
 
+    private Bundle b;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_new_room);
-        Bundle b = getIntent().getExtras();
+        b = getIntent().getExtras();
         players_list_view = (RecyclerView) findViewById(R.id.playersListView);
         players_list_view.setLayoutManager(new LinearLayoutManager(this));
         players_list_view.addItemDecoration(new DividerItemDecoration(players_list_view.getContext(), DividerItemDecoration.VERTICAL));
@@ -105,7 +107,11 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     public void readyUp(View view) {
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
+        intentHost.putExtras(b);
+
         final Intent intentRest = new Intent(this, ListenerActivity.class);
+        intentRest.putExtras(b);
+
         if (player.getStatus().equals("storyteller")) {
             startActivity(intentHost);
         }
