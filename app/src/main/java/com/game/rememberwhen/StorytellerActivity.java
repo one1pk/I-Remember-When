@@ -29,8 +29,10 @@ public class StorytellerActivity extends AppCompatActivity {
     private TextView timerTextView;
     private Button lieButton;
     private Button truthButton;
+    private Button buttonDone;
+    private Button buttonMoreTime;
 
-    private int promptCounter = 0;
+    private int promptCounter = -1;
     private CountDownTimer cTimer = null;
     private int timeLeft = 120;
 
@@ -47,10 +49,13 @@ public class StorytellerActivity extends AppCompatActivity {
         // Listener for button clicks will trigger timer to begin for storyteller to tell story
         View.OnClickListener decision = new View.OnClickListener() {
             public void onClick(View view) {
+                setContentView(R.layout.activity_storyteller_talk);
                 startTimer();
             }
         };
 
+        lieButton.setOnClickListener(decision);
+        truthButton.setOnClickListener(decision);
 
 
     }
@@ -70,7 +75,6 @@ public class StorytellerActivity extends AppCompatActivity {
                 }
                 randomizePrompts();
                 showPrompt();
-//                startTimer();
             }
             @Override
             public void onCancelled(DatabaseError error) {
@@ -85,9 +89,10 @@ public class StorytellerActivity extends AppCompatActivity {
         Collections.shuffle(dataset);
     }
 
+    // increment prompt number and display new prompt
     private void showPrompt() {
         promptTextView = findViewById(R.id.textViewPrompt); // put in loadUI method?
-        prompt = dataset.get(promptCounter).prompt;
+        prompt = dataset.get(++promptCounter).prompt;
         promptTextView.setText(prompt);
     }
 
@@ -103,36 +108,28 @@ public class StorytellerActivity extends AppCompatActivity {
 
     private void startTimer() {
         cTimer = new CountDownTimer(timeLeft*1000, 1000) {
+            // update timer every second
             public void onTick(long millisUntilFinished) {
                 timeLeft = (int)(millisUntilFinished / 1000);
                 timerTextView.setText("Time Left: " + timeLeft);
+                // display option for More Time when time left is under 10 seconds
+                if(timeLeft <= 10) {
+                    buttonMoreTime.setVisibility(View.VISIBLE);
+                }
             }
+            // end storytelling phase once timer runs out
             public void onFinish() {
-                // endRound();
+                endStoryTime(buttonDone);
             }
         };
         cTimer.start();
     }
 
-    private void cancelTimer() {
-        if(cTimer!=null)
-            cTimer.cancel();
+    private void endStoryTime(View view) {
+        // TODO switch to Deliberation Activity
     }
 
-    // TODO end of game and round
-/*
-    private void endRound() {
-        cancelTimer();
-
-        Intent intent = new Intent(this, EndGameActivity.class);
-        intent.putExtra("score", finalScore);
-        startActivity(intent);
-
-        finish();
-    }
-*/
-
-    //function called when 'Rules' button pressed (onClick in .xml)
+    // function called when 'Rules' button pressed (onClick in .xml)
     public void openRules(View view) {
         Intent intent = new Intent(this, RulesActivity.class);
         startActivity(intent);
