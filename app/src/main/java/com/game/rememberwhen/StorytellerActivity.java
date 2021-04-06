@@ -2,6 +2,7 @@ package com.game.rememberwhen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,10 +26,13 @@ public class StorytellerActivity extends AppCompatActivity {
     static String prompt;
 
     private TextView promptTextView;
+    private TextView timerTextView;
     private Button lieButton;
     private Button truthButton;
 
     private int promptCounter = 0;
+    private CountDownTimer cTimer = null;
+    private int timeLeft = 120;
 
     private ArrayList<Prompt> dataset = new ArrayList<Prompt>();
 
@@ -39,6 +43,16 @@ public class StorytellerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_storyteller);
 
         loadDataset();
+
+        // Listener for button clicks will trigger timer to begin for storyteller to tell story
+        View.OnClickListener decision = new View.OnClickListener() {
+            public void onClick(View view) {
+                startTimer();
+            }
+        };
+
+
+
     }
 
     private void loadDataset() {
@@ -66,7 +80,6 @@ public class StorytellerActivity extends AppCompatActivity {
         });
         }
 
-
     // Randomize order of prompts for each new game room
     private void randomizePrompts() {
         Collections.shuffle(dataset);
@@ -83,21 +96,19 @@ public class StorytellerActivity extends AppCompatActivity {
         return prompt;
     }
 
-    public void skipPrompt() {
+    public void skipPrompt(View view) {
         prompt = dataset.get(++promptCounter).prompt;
         promptTextView.setText(prompt);
     }
 
-    // TODO: Round timer and EndRound functionality
-    /*
     private void startTimer() {
         cTimer = new CountDownTimer(timeLeft*1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 timeLeft = (int)(millisUntilFinished / 1000);
-                timerTextView.setText("Time Left: " + String.valueOf(timeLeft));
+                timerTextView.setText("Time Left: " + timeLeft);
             }
             public void onFinish() {
-                endRound();
+                // endRound();
             }
         };
         cTimer.start();
@@ -108,18 +119,18 @@ public class StorytellerActivity extends AppCompatActivity {
             cTimer.cancel();
     }
 
+    // TODO end of game and round
+/*
     private void endRound() {
         cancelTimer();
 
         Intent intent = new Intent(this, EndGameActivity.class);
-        intent.putExtra("time_left", timeLeft);
-        int finalScore = score + (timeLeft * 10);
         intent.putExtra("score", finalScore);
         startActivity(intent);
 
         finish();
     }
-     */
+*/
 
     //function called when 'Rules' button pressed (onClick in .xml)
     public void openRules(View view) {

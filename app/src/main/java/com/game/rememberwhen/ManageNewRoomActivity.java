@@ -100,8 +100,6 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             TextView displayRoomID = findViewById(R.id.textViewDisplayRoomID);
             displayRoomID.setText("roomCode not Found");
         }
-        // TODO Check who is registered as the first player
-        // Toast.makeText(ManageNewRoomActivity.this, "Player 1 is: " + ((Player)playerList.get(0)).getName(), Toast.LENGTH_LONG).show();
     }
 
 
@@ -155,7 +153,7 @@ public class ManageNewRoomActivity extends AppCompatActivity {
     class PlayersViewHolder extends RecyclerView.ViewHolder {
         private final TextView playerName;
 //        private final TextView playerScore;
-        private ImageView playerAvatar;
+//        private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
             super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));

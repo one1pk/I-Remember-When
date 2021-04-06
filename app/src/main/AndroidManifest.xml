@@ -13,10 +13,16 @@
         <activity
             android:name=".StorytellerActivity"
             android:parentActivityName=".ManageNewRoomActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.game.rememberwhen.MainActivity" />
         </activity>
         <activity
             android:name=".ListenerActivity"
             android:parentActivityName=".ManageNewRoomActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.game.rememberwhen.MainActivity" />
         </activity>
         <activity
             android:name=".JoinRoomActivity"
