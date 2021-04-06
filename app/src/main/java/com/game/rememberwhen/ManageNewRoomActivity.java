@@ -37,12 +37,14 @@ public class ManageNewRoomActivity extends AppCompatActivity {
     private TextView playersListText;
     private RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
 
+    private Bundle b;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_new_room);
-        Bundle b = getIntent().getExtras();
+        b = getIntent().getExtras();
         players_list_view = (RecyclerView) findViewById(R.id.playersListView);
         players_list_view.setLayoutManager(new LinearLayoutManager(this));
         players_list_view.addItemDecoration(new DividerItemDecoration(players_list_view.getContext(), DividerItemDecoration.VERTICAL));
@@ -98,14 +100,16 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             TextView displayRoomID = findViewById(R.id.textViewDisplayRoomID);
             displayRoomID.setText("roomCode not Found");
         }
-        // TODO Check who is registered as the first player
-        // Toast.makeText(ManageNewRoomActivity.this, "Player 1 is: " + ((Player)playerList.get(0)).getName(), Toast.LENGTH_LONG).show();
     }
 
 
     public void readyUp(View view) {
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
+        intentHost.putExtras(b);
+
         final Intent intentRest = new Intent(this, ListenerActivity.class);
+        intentRest.putExtras(b);
+
         if (player.getStatus().equals("storyteller")) {
             startActivity(intentHost);
         }
@@ -149,7 +153,7 @@ public class ManageNewRoomActivity extends AppCompatActivity {
     class PlayersViewHolder extends RecyclerView.ViewHolder {
         private final TextView playerName;
 //        private final TextView playerScore;
-        private ImageView playerAvatar;
+//        private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
             super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));

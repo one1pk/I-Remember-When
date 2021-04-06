@@ -53,6 +53,7 @@
     <string name="storyteller_true_btn">Tell the truth</string>
     <string name="storyteller_false_btn">Make it up</string>
     <string name="storyteller_start_story_btn">Tell my story</string>
+    <string name="storyteller_more_time">Get 30 more seconds</string>
     <string name="storyteller_end_story_btn">Story is Done</string>
     <string name="storyteller_defend">Defend your story to the listeners</string>
     <string name="skip_prompt">Skip</string>
@@ -61,12 +62,4 @@
     <string name="winner">WINS!!</string>
     <string name="retry">Retry</string>
     <string name="exit_game">Exit Game</string>
-
-
-
-
-
-
-
-
 </resources>
