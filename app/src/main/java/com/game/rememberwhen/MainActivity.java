@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         EditText usernameText = findViewById(R.id.editTextTextPersonName);
         String userName = usernameText.getText().toString();
         // Initial Score 0; room creator will start the game as a storyteller
-        player = new Player(userName, 0, "storyteller");
+        player = new Player(userName, 0,0 ,"storyteller");
         final Room room = new Room();
         player.setRoomId(room.getRoomId());
         CollectionReference fireStore = this.initFireStore().collection("/rooms"); // FireStore root node collection reference

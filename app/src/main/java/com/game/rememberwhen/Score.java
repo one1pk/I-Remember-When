@@ -43,42 +43,60 @@ public class Score {
     public String getRespond() { return respond; }
 
     //Intent intent = getIntent();
+   // int diffScore;
 
     public Score(List<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
-            FirebaseFirestore db=FirebaseFirestore.getInstance();
-            final CollectionReference collection= db.collection("/rooms");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final CollectionReference collection = db.collection("/rooms");
             if (playerList.get(i).getScore() == 500) {
                 playersListText.setText("Winner found");
+                new leaderBoard(playerList);
 
             }
 
             if (playerList.get(i).getStatus().equals("storyteller")) {
-                if (answer.equals("truth")) {
-                    switch (respond) {
+                if (getAnswer().equals("truth")) {
+                    switch (getRespond()) {
                         case "truth":
+
                             db.collection("/rooms").document("name").update(
-                                    "score", player.getScore()+ playerList.size()*10
+                                    "score", player.getScore() + playerList.size() * 10
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",  playerList.size() * 10
                             );
                             break;
 
                         case "MakeItUp":
-                            player.setScore(player.getScore() - 10);
+                            db.collection("/rooms").document("name").update(
+                                    "score", player.getScore() - 10
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",   -10
+                            );
+
                             break;
 
 
                     }
                 } else {
-                    switch (respond) {
+                    switch (getRespond()) {
                         case "truth":
                             db.collection("/rooms").document("name").update(
-                                    "score", player.getScore()+ playerList.size()*20
+                                    "score", player.getScore() + playerList.size() * 20
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",   playerList.size() * 20
                             );
                             break;
 
                         case "MakeItUp":
                             db.collection("/rooms").document("name").update(
-                                    "score", player.getScore()+ playerList.size()-20
+                                    "score", player.getScore()  - 20
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",   -20
                             );
                             break;
 
@@ -86,44 +104,61 @@ public class Score {
                 }
 
             } else {
-                if (respond.equals(""))
+                if (getAnswer().equals("")) {
                     db.collection("/rooms").document("name").update(
-                            "score", player.getScore()+ playerList.size()-10
+                            "score", player.getScore() - 10
                     );
-                else if (answer.equals("truth")) {
-                    switch (respond) {
+                    db.collection("/rooms").document("name").update(
+                            "score dif",   -10
+                    );
+                }
+                else if (getAnswer().equals("truth")) {
+                    switch (getRespond()) {
                         case "truth":
                             db.collection("/rooms").document("name").update(
-                                    "score", player.getScore()+ playerList.size()+10
+                                    "score", player.getScore() + 10
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",   +10
                             );
                             break;
 
                         case "MakeItUp":
                             db.collection("/rooms").document("name").update(
-                                    "score", player.getScore()+ playerList.size()-10
+                                    "score", player.getScore()  - 10
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",   -10
                             );
                             break;
 
                     }
                 } else {
-                    switch (respond) {
+                    switch (getRespond()) {
                         case "truth":
                             db.collection("/rooms").document("name").update(
-                                    "score", player.getScore()+ playerList.size()-5
+                                    "score", player.getScore()  -5
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",   -5
                             );
                             break;
 
                         case "MakeItUp":
                             db.collection("/rooms").document("name").update(
-                                    "score", player.getScore()+ playerList.size()+10
+                                    "score", player.getScore() + 10
+                            );
+                            db.collection("/rooms").document("name").update(
+                                    "score dif",   +10
                             );
                             break;
                     }
                 }
             }
+
+            new leaderBoard(playerList);
         }
+
     }
-
-
 
 }

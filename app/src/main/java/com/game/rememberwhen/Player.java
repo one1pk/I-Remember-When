@@ -1,10 +1,11 @@
 package com.game.rememberwhen;
 
 // POJO / Model Class for Player Entity
-public class Player {
+public class Player implements Comparable<Player> {
     private String name;
     private int roomId;
     private int score;
+    private int scoreDif;
     private String status;
 
     // Default Constructor
@@ -12,9 +13,10 @@ public class Player {
     }
 
     // Overridden constructor
-    public Player(String name, int score, String status) {
+    public Player(String name, int score,int scoreDif, String status) {
         this.name = name;
         this.score = score;
+        this.scoreDif=scoreDif;
         this.status = status;
     }
 
@@ -47,6 +49,14 @@ public class Player {
         this.score = score;
     }
 
+    public int getScoreDif() {
+        return scoreDif;
+    }
+
+    public void setScoreDif(int scoreDif) {
+        this.scoreDif = scoreDif;
+    }
+
     public void setStatus(String status) {
         this.status=status;
     }
@@ -55,5 +65,18 @@ public class Player {
         return this.status;
     }
 
+    @Override
+    public String toString(){
+      if(scoreDif>0)
+                return "name: "+ name+ " Score:"+score+ " get: "+scoreDif;
+       else
+                return "name: "+ name+ " Score:"+score+ " los: "+ -1* scoreDif;
+
+    }
+    @Override
+    public int compareTo(Player o) {
+        return ( this.getScore()< o.getScore() ? -1 :
+                (this.getScore()==  o.getScore() ? 0 : 1));
+    }
 }
 
