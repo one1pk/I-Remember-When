@@ -46,17 +46,24 @@ public class StorytellerActivity extends AppCompatActivity {
 
         loadDataset();
 
-        // Listener for button clicks will trigger timer to begin for storyteller to tell story
-        View.OnClickListener decision = new View.OnClickListener() {
+        // When user chooses lie/truth, screen view changes for storyteller to tell story
+        View.OnClickListener truthListener = new View.OnClickListener() {
             public void onClick(View view) {
                 setContentView(R.layout.activity_storyteller_talk);
-                startTimer();
+                startTimer(); // begin timer on display
+                // TODO [DELARAM] change score status
+            }
+        };
+        View.OnClickListener lieListener = new View.OnClickListener() {
+            public void onClick(View view) {
+                setContentView(R.layout.activity_storyteller_talk);
+                startTimer(); // begin timer on display
+                // TODO [DELARAM] change score status
             }
         };
 
-        lieButton.setOnClickListener(decision);
-        truthButton.setOnClickListener(decision);
-
+        lieButton.setOnClickListener(lieListener);
+        truthButton.setOnClickListener(truthListener);
 
     }
 
