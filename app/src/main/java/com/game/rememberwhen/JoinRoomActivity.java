@@ -33,9 +33,7 @@ public class JoinRoomActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle b = getIntent().getExtras();
         String userName = b.get("userName").toString(); // Parsing userName from MainActivity.
-        player = new Player(userName, 0);
-
-
+        player = new Player(userName, 0, "listener"); // all players joining room will start game as listeners
     }
 
     // Check the code given by user is valid, connect user to open room

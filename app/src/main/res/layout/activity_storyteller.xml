@@ -4,13 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.game.rememberwhen.StorytellerActivity">
 
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitStart"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:fontFamily="@font/cabin"
+        android:gravity="center_horizontal"
+        android:inputType="textMultiLine"
+        android:text="@string/storyteller_prompt_display"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -103,8 +111,10 @@
         android:background="@drawable/light_buttons"
         android:fontFamily="@font/cabin"
         android:text="@string/storyteller_true_btn"
-        android:textSize="25sp"
-        android:textStyle="normal"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_color_change"
+        app:layout_constraintBottom_toTopOf="@+id/lieButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -117,8 +127,9 @@
         android:background="@drawable/light_buttons"
         android:fontFamily="@font/cabin"
         android:text="@string/storyteller_false_btn"
-        android:textSize="25sp"
-        android:textStyle="normal"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_color_change"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/truthButton" />
@@ -136,6 +147,19 @@
         android:text="@string/rules"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/skipButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="292dp"
+        android:layout_marginLeft="292dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/cabin"
+        android:onClick="skipPrompt"
+        android:text="@string/skip_prompt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

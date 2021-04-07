@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewStoryteller2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="18dp"
+        android:fontFamily="@font/cabin_semibold"
+        android:text="@string/storyteller_title"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/textViewPrompt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:fontFamily="@font/cabin"
+        android:gravity="center_horizontal"
+        android:inputType="textMultiLine"
+        android:text="@string/storyteller_prompt_display"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewStoryteller2" />
+
+    <TextView
+        android:id="@+id/textViewTimer"
+        android:layout_width="130dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="18dp"
+        android:fontFamily="@font/cabin_semibold"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewPrompt2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.536"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="endStoryTime"
+        android:text="@string/storyteller_end_story_btn"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="445dp" />
+
+    <Button
+        android:id="@+id/buttonMoreTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/storyteller_more_time"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="116dp"
+        tools:layout_editor_absoluteY="574dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
