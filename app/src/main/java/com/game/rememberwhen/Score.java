@@ -44,6 +44,10 @@ public class Score {
 
     //Intent intent = getIntent();
    // int diffScore;
+    public Score(String a)
+    {
+        answer=a;
+    }
 
     public Score(List<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
