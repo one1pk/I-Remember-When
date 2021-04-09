@@ -4,6 +4,7 @@ package com.game.rememberwhen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +20,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.game.rememberwhen.R;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ManageNewRoomActivity extends AppCompatActivity {
     private Player player;
     private Room room;
     private List playerList = new ArrayList<Player>();
+
+    private String prompt;
+    private ArrayList<Prompt> dataset = new ArrayList<Prompt>();
+
     private TextView playersListText;
     private RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
 
@@ -41,7 +55,6 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_new_room);
         b = getIntent().getExtras();
@@ -51,9 +64,12 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         final PlayersAdapter adapter = new PlayersAdapter(playerList);
         players_list_view.setAdapter(adapter);
         room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
+        // For host
         if (b.get("player") != null) {
-            // For host
             player = new Gson().fromJson(b.get("player").toString(), Player.class);
+            // Dataset loaded from host player
+            loadDataset();
+
         }
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         CollectionReference collection = fStore.collection("/rooms");
@@ -86,10 +102,6 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         // Get the intent that started this activity
         Intent intent = getIntent();
 
-        // Create room and return generated code
-//        Room newRoom = new Room();
-//        int generatedRoomID = newRoom.getRoomId();
-
         // Cast RoomID to string and send to screen
         try {
             String roomCode = String.valueOf(room.getRoomId());
@@ -100,9 +112,41 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             TextView displayRoomID = findViewById(R.id.textViewDisplayRoomID);
             displayRoomID.setText("roomCode not Found");
         }
+        Map<String, Object> promptData = new HashMap<>();
+        promptData.put("prompt", prompt);
+        collection.document(String.valueOf(b.get("roomId"))).set(promptData, SetOptions.merge());
     }
 
+    // read prompt database from Firebase and store a shuffled collection of prompts for current game room
+    private void loadDataset() {
+        DatabaseReference myDBRef = FirebaseDatabase.getInstance().getReference().child("db").child("prompts");
+        // Read from database
+        myDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataset.size() != 0) {
+                    dataset.clear();
+                }
+                for (DataSnapshot promptSnapshot : dataSnapshot.getChildren()) {
+                    Prompt prompt = promptSnapshot.getValue(Prompt.class);
+                    dataset.add(prompt);
+                }
+                randomizePrompts();
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("FIREBASE", "Failed to read value.", error.toException());
+            }
+        });
+    }
 
+    // Randomize order of prompts for each new game room
+    private void randomizePrompts() {
+        Collections.shuffle(dataset);
+    }
+
+    // begin game once players are ready
     public void readyUp(View view) {
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
         intentHost.putExtras(b);
@@ -167,4 +211,5 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             // playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
+
 }

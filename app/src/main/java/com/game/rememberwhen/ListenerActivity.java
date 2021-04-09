@@ -26,7 +26,8 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
     private void loadUI() {
         //display prompt
         TextView Prompt = findViewById(R.id.displayPrompt);
-        Prompt.setText(StorytellerActivity.getPrompt());
+
+        //Prompt.setText(StorytellerActivity.getPrompt());
     }
 
 }

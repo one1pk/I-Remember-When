@@ -9,13 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +49,15 @@ public class StorytellerActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         setContentView(R.layout.activity_storyteller);
 
-        loadDataset();
+        //loadDataset();
+        /*
+        string FirebaseFirestore.getInstance().collection("/rooms").document(String.valueOf(b.get("roomId"))).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+            }
+        });
+        */
 
         // When user chooses lie/truth, screen view changes for storyteller to tell story
         View.OnClickListener truthListener = new View.OnClickListener() {
@@ -65,35 +78,6 @@ public class StorytellerActivity extends AppCompatActivity {
         lieButton.setOnClickListener(lieListener);
         truthButton.setOnClickListener(truthListener);
 
-    }
-
-    private void loadDataset() {
-        DatabaseReference myDBRef = database.getReference().child("db").child("prompts");
-        // Read from database
-        myDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataset.size() != 0) {
-                    dataset.clear();
-                }
-                for (DataSnapshot promptSnapshot : dataSnapshot.getChildren()) {
-                    Prompt prompt = promptSnapshot.getValue(Prompt.class);
-                    dataset.add(prompt);
-                }
-                randomizePrompts();
-                showPrompt();
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("FIREBASE", "Failed to read value.", error.toException());
-            }
-        });
-        }
-
-    // Randomize order of prompts for each new game room
-    private void randomizePrompts() {
-        Collections.shuffle(dataset);
     }
 
     // increment prompt number and display new prompt
