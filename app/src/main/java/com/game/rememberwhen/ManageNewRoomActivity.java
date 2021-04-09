@@ -3,6 +3,7 @@
 package com.game.rememberwhen;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.game.rememberwhen.R;
+import com.game.rememberwhen.utilities.Constants;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -26,9 +29,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ManageNewRoomActivity extends AppCompatActivity {
     private Player player;
@@ -51,7 +56,9 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         final PlayersAdapter adapter = new PlayersAdapter(playerList);
         players_list_view.setAdapter(adapter);
         room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
-        if (b.get("player") != null) {
+        if(b.getSerializable("playerThis") != null){
+            player = new Gson().fromJson( b.getSerializable("playerThis").toString(), Player.class);
+        }else if (b.get("player") != null) {
             // For host
             player = new Gson().fromJson(b.get("player").toString(), Player.class);
         }
@@ -76,21 +83,12 @@ public class ManageNewRoomActivity extends AppCompatActivity {
                     if (playerList.size() == 6) {
                         playersListText.setText("Players are ready: ");
                     } else {
-                        playersListText.setText("Players Being Added: ");
+                        playersListText.setText("Players are Being Added: "); // TODO Make it smaller ?
                     }
                 }
             }
         });
-
         adapter.notifyDataSetChanged();
-        // Get the intent that started this activity
-        Intent intent = getIntent();
-
-        // Create room and return generated code
-//        Room newRoom = new Room();
-//        int generatedRoomID = newRoom.getRoomId();
-
-        // Cast RoomID to string and send to screen
         try {
             String roomCode = String.valueOf(room.getRoomId());
             TextView displayRoomID = findViewById(R.id.textViewDisplayRoomID);
@@ -103,14 +101,29 @@ public class ManageNewRoomActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void readyUp(View view) {
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
-        intentHost.putExtras(b);
-
+//        intentHost.putExtras(b);
         final Intent intentRest = new Intent(this, ListenerActivity.class);
-        intentRest.putExtras(b);
-
-        if (player.getStatus().equals("storyteller")) {
+//        intentRest.putExtras(b);
+        System.out.println("PLAYER STATUS IS : "+player.getStatus());
+        if (player.getStatus().equalsIgnoreCase(Constants.KEY_PLAYER_TYPE_TELLER)) {
+            // TODO Adding host, All players,
+            Bundle b = new Bundle();
+//            b.putString("player", new Gson().toJson(player, Player.class));
+            b.putSerializable("player", player);
+//            b.putSerializable("selectedUsers", new Gson().toJson(playerList));
+            ArrayList<Player> exportWithoutHost = new ArrayList<>(playerList);
+            System.out.println("exportWithoutHost.size() "+exportWithoutHost.size());
+            System.out.println("Player Token: "+player.getToken());
+            Predicate<Player> isQualified = item -> (item.getToken().equals(player.getToken())); // Predicate to filter host player from list
+            exportWithoutHost.stream().filter(isQualified).forEach(p->System.out.println(p.getName()+" : "+p.token));
+            exportWithoutHost.removeIf(isQualified); // removing Host from List // otherwise will send invite to self as well.
+            exportWithoutHost.remove(player);
+            System.out.println("exportWithoutHost.size() "+exportWithoutHost.size());
+            b.putSerializable("selectedUsersLIST",(Serializable) exportWithoutHost);
+            intentHost.putExtras(b);
             startActivity(intentHost);
         }
         else {

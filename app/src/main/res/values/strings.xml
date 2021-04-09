@@ -57,4 +57,6 @@
     <string name="winner">WINS!!</string>
     <string name="retry">Retry</string>
     <string name="exit_game">Exit Game</string>
+    <string name="activity_incoming_invitation_text_incoming_meeting_invitation">Incoming Meeting Invitation</string>
+    <string name="activity_outgoing_invitation_text_sending_meeting_invitation">Sending Meeting Invitation</string>
 </resources>

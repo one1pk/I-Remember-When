@@ -33,7 +33,8 @@ public class JoinRoomActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle b = getIntent().getExtras();
         String userName = b.get("userName").toString(); // Parsing userName from MainActivity.
-        player = new Player(userName, 0,0, "listener"); // all players joining room will start game as listeners
+        String token = b.getString("token");
+        player = new Player(userName, 0, 0, "listener", token); // all players joining room will start game as listeners
     }
 
     // Check the code given by user is valid, connect user to open room
@@ -42,14 +43,16 @@ public class JoinRoomActivity extends AppCompatActivity {
     public void findRoom(View view) {
         // TODO create and connect to game waiting room
 //        Toast.makeText(getApplicationContext(),"No Rooms Available", Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(this, "FIND ROOM", Toast.LENGTH_LONG).show();
+        System.out.println("++++++++++++++++++++++++++++++ 1");
         /*lines below will get code from user, check if it is valid and send user to the matching room */
         final Intent intent = new Intent(this, ManageNewRoomActivity.class);
-        final Intent backtoMain = new Intent(this, MainActivity.class);
+
         EditText editText = findViewById(R.id.JoiningRoomID);
         final String userEnteredID = editText.getText().toString();
 //        HashMap<String, Object> roomData = null;
-        FirebaseFirestore fs = this.initFireStore();
+        FirebaseFirestore fs = FirebaseFirestore.getInstance();
+        ;
         final CollectionReference collectionReference = fs.collection("/rooms");
         collectionReference.document(userEnteredID).get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -57,10 +60,8 @@ public class JoinRoomActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     final HashMap<String, Object> roomData = (HashMap<String, Object>) document.getData();
-
                     if (roomData != null && !roomData.isEmpty()) {
                         // If RoomId available to join than add new player to List and update firebase
-
                         ArrayList<Player> arrayList = (ArrayList<Player>) roomData.get("users");
                         System.out.println("arrayList.size()" + arrayList.size());
                         if (arrayList.size() >= 6) {
@@ -81,6 +82,7 @@ public class JoinRoomActivity extends AppCompatActivity {
                                     Bundle b = getIntent().getExtras();
 //                                System.out.println(roomData);
                                     b.putString("roomId", userEnteredID);
+                                    b.putSerializable("playerThis", new Gson().toJson(player, Player.class));
                                     b.putSerializable("users", new Gson().toJson(roomData));
                                     intent.putExtras(b);
                                     startActivity(intent);
@@ -95,31 +97,4 @@ public class JoinRoomActivity extends AppCompatActivity {
         }));
     }
 
-    public FirebaseFirestore initFireStore() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        return db;
-    }
-
-    /*check user entered roomID against available roomIDs*/
-    //TODO change isRoomIDValid to bool and implement
-//    public HashMap findRoomById(String uRoomID) {
-//        //TODO logic to check if userEnteredID is valid
-//        HashMap<String, Object> hmpa = null;
-//        FirebaseFirestore fs = this.initFireStore();
-//        CollectionReference collectionReference = fs.collection("/rooms");
-//        return collectionReference.document(uRoomID).get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    hmpa = (HashMap<String, Object>) document.getData();
-//                    return hmpa;
-//                }
-//            }
-//
-//
-//        }));
-//
-//
-//    }
 }

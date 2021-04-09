@@ -1,23 +1,27 @@
 package com.game.rememberwhen;
 
+import java.io.Serializable;
+
 // POJO / Model Class for Player Entity
-public class Player implements Comparable<Player> {
+public class Player implements Serializable, Comparable<Player> {
     private String name;
     private int roomId;
     private int score;
     private int scoreDif;
     private String status;
+    public String token;
 
     // Default Constructor
     public Player() {
     }
 
     // Overridden constructor
-    public Player(String name, int score,int scoreDif, String status) {
+    public Player(String name, int score, int scoreDif, String status, String deviceToken) {
         this.name = name;
         this.score = score;
-        this.scoreDif=scoreDif;
+        this.scoreDif = scoreDif;
         this.status = status;
+        this.token = deviceToken;
     }
 
     public boolean equals(Player p1) {
@@ -58,25 +62,34 @@ public class Player implements Comparable<Player> {
     }
 
     public void setStatus(String status) {
-        this.status=status;
+        this.status = status;
     }
 
     public String getStatus() {
         return this.status;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
-    public String toString(){
-      if(scoreDif>0)
-                return "name: "+ name+ " Score:"+score+ " get: "+scoreDif;
-       else
-                return "name: "+ name+ " Score:"+score+ " los: "+ -1* scoreDif;
+    public String toString() {
+        if (scoreDif > 0)
+            return "name: " + name + " Score:" + score + " get: " + scoreDif;
+        else
+            return "name: " + name + " Score:" + score + " los: " + -1 * scoreDif;
 
     }
+
     @Override
     public int compareTo(Player o) {
-        return ( this.getScore()< o.getScore() ? -1 :
-                (this.getScore()==  o.getScore() ? 0 : 1));
+        return (this.getScore() < o.getScore() ? -1 :
+                (this.getScore() == o.getScore() ? 0 : 1));
     }
 }
 

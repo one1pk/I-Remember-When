@@ -26,7 +26,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
     private void loadUI() {
         //display prompt
         TextView Prompt = findViewById(R.id.displayPrompt);
-        Prompt.setText(StorytellerActivity.getPrompt());
+        Prompt.setText(StorytellerActivity.getPrompt()); //TODO SET IN FIREBASE OR SEND FCM DATA MESSAGE TO ALL USERS StoryTeller.Device can not share that here
     }
 
 }

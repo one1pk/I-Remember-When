@@ -1,27 +1,39 @@
 package com.game.rememberwhen;
 
 import android.content.Intent;
+<<<<<<< app/src/main/java/com/game/rememberwhen/StorytellerActivity.java
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.game.rememberwhen.listeners.PlayerListener;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class StorytellerActivity extends AppCompatActivity {
+public class StorytellerActivity extends AppCompatActivity implements PlayerListener {
     private FirebaseDatabase database;
+    private Player player;
+    private ArrayList<Player> getSelectedUsers = new ArrayList<>();
 
     static String prompt;
 
@@ -38,10 +50,25 @@ public class StorytellerActivity extends AppCompatActivity {
 
     private ArrayList<Prompt> dataset = new ArrayList<Prompt>();
 
+    private final int REQUEST_CODE_BATTERY_OPTIMIZATIONS = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
+        player = (Player) b.getSerializable("player");
+        getSelectedUsers.addAll((ArrayList<Player>) b.getSerializable("selectedUsersLIST"));
+        System.out.println(getSelectedUsers.toString());
+        
+        setContentView(R.layout.activity_storyteller);
+        truthButton = (Button) findViewById(R.id.truthButton);
+        lieButton = (Button) findViewById(R.id.lieButton);
+        timerTextView = (TextView) findViewById(R.id.timer); 
+
+        database = FirebaseDatabase.getInstance();
+
+        loadDataset();
+        
         setContentView(R.layout.activity_storyteller);
 
         loadDataset();
@@ -50,12 +77,14 @@ public class StorytellerActivity extends AppCompatActivity {
         View.OnClickListener truthListener = new View.OnClickListener() {
             public void onClick(View view) {
                 setContentView(R.layout.activity_storyteller_talk);
+                StorytellerActivity.this.onMultipleUsersAction(true);
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
             }
         };
         View.OnClickListener lieListener = new View.OnClickListener() {
             public void onClick(View view) {
+                StorytellerActivity.this.onMultipleUsersAction(true);
                 setContentView(R.layout.activity_storyteller_talk);
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
@@ -114,6 +143,7 @@ public class StorytellerActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
+        cTimer.start();
         cTimer = new CountDownTimer(timeLeft*1000, 1000) {
             // update timer every second
             public void onTick(long millisUntilFinished) {
@@ -129,11 +159,11 @@ public class StorytellerActivity extends AppCompatActivity {
                 endStoryTime(buttonDone);
             }
         };
-        cTimer.start();
     }
 
     private void endStoryTime(View view) {
         // TODO switch to Deliberation Activity
+        cTimer.cancel();
     }
 
     // function called when 'Rules' button pressed (onClick in .xml)
@@ -141,4 +171,85 @@ public class StorytellerActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RulesActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void initiateVideoMeeting(Player user) {
+        final boolean isValidToken = user.token != null && !user.token.trim().isEmpty();
+
+        if (!isValidToken) {
+            Toast.makeText(this, user.getName() + " " + user.getStatus() + " is not available for meeting", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), OutgoingInvitationActivity.class);
+            intent.putExtra("user", new Gson().toJson(player, Player.class));
+            intent.putExtra("type", "video");
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void initiateAudioMeeting(Player user) {
+        final boolean isValidToken = user.token != null && !user.token.trim().isEmpty();
+
+        if (!isValidToken) {
+            Toast.makeText(this, user.getName() + " " + user.getStatus() + " is not available for meeting", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), OutgoingInvitationActivity.class);
+            intent.putExtra("user", new Gson().toJson(player, Player.class));
+            intent.putExtra("type", "audio");
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onMultipleUsersAction(Boolean isMultipleUsersSelected) {
+        if (isMultipleUsersSelected) {
+//            imageConference.setVisibility(View.VISIBLE);
+//            imageConference.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), OutgoingInvitationActivity.class);
+            intent.putExtra("user", new Gson().toJson(player, Player.class));
+            Bundle bundle = intent.getExtras();
+            bundle.putSerializable("selectedUsersLIST", (Serializable) getSelectedUsers);
+            bundle.putString("type", "video");
+            bundle.putString("token", player.getToken());
+            bundle.putBoolean("isMultiple", true);
+            bundle.putSerializable("user", (Serializable) player);
+
+            intent.putExtras(bundle);
+            intent.putExtra("selectedUsers", new Gson().toJson(getSelectedUsers));
+            intent.putExtra("type", "video");
+            intent.putExtra("isMultiple", true);
+            startActivity(intent);
+
+
+//            });
+        } else {
+//            imageConference.setVisibility(View.GONE);
+        }
+    }
+
+    private void checkForBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
+                new AlertDialog.Builder(StorytellerActivity.this)
+                        .setTitle("Waring")
+                        .setMessage("Battery optimization is enabled. It can interrupt running background services")
+                        .setPositiveButton("Disable", (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                            startActivityForResult(intent, REQUEST_CODE_BATTERY_OPTIMIZATIONS);
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                        .show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_BATTERY_OPTIMIZATIONS) {
+            checkForBatteryOptimizations();
+        }
+    }
+
 }
