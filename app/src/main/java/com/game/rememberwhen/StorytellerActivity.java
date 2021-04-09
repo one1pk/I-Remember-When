@@ -6,34 +6,22 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.game.rememberwhen.listeners.PlayerListener;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class StorytellerActivity extends AppCompatActivity implements PlayerListener {
     private FirebaseDatabase database;
@@ -48,6 +36,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
     private Button truthButton;
     private Button buttonDone;
     private Button buttonMoreTime;
+    private Button dsFinishbtn;
 
     private int promptCounter = -1;
     private CountDownTimer cTimer = null;
@@ -68,11 +57,11 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         setContentView(R.layout.activity_storyteller);
         truthButton = (Button) findViewById(R.id.truthButton);
         lieButton = (Button) findViewById(R.id.lieButton);
-        timerTextView = (TextView) findViewById(R.id.timer);
+        buttonMoreTime = (Button) findViewById((R.id.buttonMoreTime));
+        dsFinishbtn = (Button) findViewById((R.id.dsFinishBtn));
+        timerTextView = (TextView) findViewById(R.id.textViewTimer);
 
         database = FirebaseDatabase.getInstance();
-
-        setContentView(R.layout.activity_storyteller);
 
         //loadDataset();
         /*
@@ -105,6 +94,22 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         lieButton.setOnClickListener(lieListener);
         truthButton.setOnClickListener(truthListener);
 
+        buttonMoreTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeLeft += 30;
+                buttonMoreTime.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        dsFinishbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO [Delaram] calculate scores from listeners
+                Intent intentLeaderboard = new Intent(StorytellerActivity.this, LeaderboardActivity.class);
+                startActivity(intentLeaderboard);
+            }
+        });
     }
 
     // increment prompt number and display new prompt
@@ -125,6 +130,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
     }
 
     private void startTimer() {
+        timeLeft = 120;
         cTimer = new CountDownTimer(timeLeft*1000, 1000) {
             // update timer every second
             public void onTick(long millisUntilFinished) {
@@ -144,8 +150,8 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
     }
 
     private void endStoryTime(View view) {
-        // TODO switch to Deliberation Activity
-        cTimer.cancel();
+        setContentView(R.layout.deliberation_storyteller);
+        startTimer();
     }
 
     // function called when 'Rules' button pressed (onClick in .xml)
