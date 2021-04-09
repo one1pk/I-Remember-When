@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ListenerActivity<prompt> extends AppCompatActivity {
+
+    private TextView prompt;
+    private Button voteTrue;
+    private Button voteFalse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +20,28 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         setContentView(R.layout.activity_listener);
 
         loadUI();
+
+        voteTrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO [Delaram] update scores
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
+                startActivity(intentLeaderboard);
+            }
+        });
+
+        voteFalse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO [Delaram] update scores
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
+                startActivity(intentLeaderboard);
+            }
+        });
+    }
+
+    public void voteNow(View view) {
+        setContentView(R.layout.deliberation_listener);
     }
 
     public void openRules(View view) {
@@ -27,6 +54,9 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         //display prompt
         TextView Prompt = findViewById(R.id.displayPrompt);
         Prompt.setText(StorytellerActivity.getPrompt()); //TODO SET IN FIREBASE OR SEND FCM DATA MESSAGE TO ALL USERS StoryTeller.Device can not share that here
+
+        voteTrue = findViewById(R.id.listenerVoteTrue);
+        voteFalse = findViewById(R.id.listenerVoteFalse);
     }
 
 }
