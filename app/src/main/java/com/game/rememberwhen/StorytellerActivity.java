@@ -1,7 +1,7 @@
 package com.game.rememberwhen;
 
 import android.content.Intent;
-//<<<<<<< app/src/main/java/com/game/rememberwhen/StorytellerActivity.java
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -80,6 +80,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
+                new Score("truth");
             }
         };
         View.OnClickListener lieListener = new View.OnClickListener() {
@@ -88,6 +89,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 setContentView(R.layout.activity_storyteller_talk);
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
+                new Score("makeItUp");
             }
         };
 
@@ -163,6 +165,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
 
     private void endStoryTime(View view) {
         // TODO switch to Deliberation Activity
+
         cTimer.cancel();
     }
 

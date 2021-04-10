@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-import java.util.ArrayList;
 public class TurnSwitching extends AppCompatActivity {
     TextView playersListText;
     Player player;
@@ -32,8 +31,8 @@ public class TurnSwitching extends AppCompatActivity {
         count+=1;
         if(count==maxRound)
         {
-            playersListText.setText("max round reaches");
-            new leaderBoard(playerList);
+           // playersListText.setText("max round reaches");
+            new LeaderBoard(playerList,"maxRound");
         }
 
     }
