@@ -1,7 +1,7 @@
 package com.game.rememberwhen;
 
 import android.content.Intent;
-<<<<<<< app/src/main/java/com/game/rememberwhen/StorytellerActivity.java
+//<<<<<<< app/src/main/java/com/game/rememberwhen/StorytellerActivity.java
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;

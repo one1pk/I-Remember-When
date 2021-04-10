@@ -22,6 +22,7 @@ public class leaderBoard extends AppCompatActivity {
         this.list = playerList;
 
         // return playerList;
+        //TODO this should be a recyclerView like in ManageNewRoomActivity
     }
        // Collections.sort(playerList, Collections.reverseOrder());
 

@@ -11,11 +11,11 @@
     <string name="players_in_game">Players in Game</string>
     <string name="rules_title">Game Rules</string>
     <string name="rules_ov_title">Overview</string>
-    <string name="rules_ov_content">This is a conversation-based game that prompts players to tell stories, which the other players must determine whether it is true or not </string>
-    <string name="rules_ov_content2">Each turn one player will be the <b>storyteller</b>, the others will be <b>listeners</b></string>
+    <string name="rules_ov_content">This is a conversation-based game that prompts players to tell stories, which the other players must determine whether it is true or not  </string>
+    <string name="rules_ov_content2">Each turn one player will be the storyteller, the others will be listeners</string>
     <string name="rules_obj_title">Objective</string>
     <string name="rules_win_title">How to Win</string>
-    <string name="rules_win_content">Either the first person to <b>500 points</b> or the person with the <b>highest score after 10 rounds</b> will be declared the winner</string>
+    <string name="rules_win_content">Either the first person to 500 points or the person with the highest score after 10 rounds will be declared the winner</string>
     <string name="rules_exit">Close Rules</string>
     <string name="role_storyteller">Storyteller</string>
     <string name="role_listener">Listener</string>
@@ -34,8 +34,8 @@
     <string name="rules_pts_min20">- 20</string>
     <string name="rules_pts_min10">- 10</string>
     <string name="rules_pts_min5">-5</string>
-    <string name="storyteller_deliberation_title">Defend Your Story!</string>
-    <string name="listener_deliberation_title">Question the Storyteller!</string>
+    <string name="storyteller_deliberation_title">Defend Your Story</string>
+    <string name="listener_deliberation_title">Question the Storyteller</string>
     <string name="listener_title">You are a Listener!</string>
     <string name="listener_instructions">Listen to the story based on the below prompt. Does it sound like a true story, or is it made up? You can grill them about it in the next stage. </string>
     <string name="listener_btn_prompt">Do you think that was a real story?</string>
@@ -54,9 +54,13 @@
     <string name="skip_prompt">Skip</string>
     <string name="reveal">storyteller was:</string>
     <string name="scoreboard">Scoreboard</string>
-    <string name="winner">WINS!!</string>
+    <string name="winner">WINNER FOUND!!</string>
     <string name="retry">Retry</string>
-    <string name="exit_game">Exit Game</string>
+    <string name="next_round_btn">Next Round</string>
+    <string name="bkgd">Background Image</string>
+    <string name="skip_btn">New Prompt</string>
+    <string name="quit_game">Quit Game</string>
     <string name="activity_incoming_invitation_text_incoming_meeting_invitation">Incoming Meeting Invitation</string>
     <string name="activity_outgoing_invitation_text_sending_meeting_invitation">Sending Meeting Invitation</string>
+    <string name="join_hint">4 digit number</string>
 </resources>
