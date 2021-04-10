@@ -14,10 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-public class LeaderboardActivity extends AppCompatActivity {
+public class leaderBoard extends AppCompatActivity {
     List<Player> list=new ArrayList<>();
     TextView mytxt=findViewById(R.id.mytext);
-    public LeaderboardActivity(List<Player> playerList)
+    public leaderBoard(List<Player> playerList)
     {
         this.list = playerList;
 
