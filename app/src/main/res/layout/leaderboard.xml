@@ -8,15 +8,15 @@
     <TextView
 
         android:id="@+id/mytext"
-        android:layout_width="369dp"
-        android:layout_height="621dp"
+        android:layout_width="396dp"
+        android:layout_height="427dp"
+        android:layout_marginTop="132dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="23dp"
-        tools:layout_editor_absoluteY="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
 
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/nextRoundbutton"
@@ -25,5 +25,24 @@
         android:text="next Round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/winnerTextView"
+        android:layout_width="298dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="60dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/maxRTextView"
+        android:layout_width="292dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="40dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

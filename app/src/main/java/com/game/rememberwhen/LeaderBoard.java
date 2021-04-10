@@ -14,16 +14,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-public class leaderBoard extends AppCompatActivity {
+public class LeaderBoard extends AppCompatActivity {
     List<Player> list=new ArrayList<>();
-    TextView mytxt=findViewById(R.id.mytext);
-    public leaderBoard(List<Player> playerList)
+    TextView mytext=findViewById(R.id.mytext);
+    TextView winnerText=findViewById(R.id.winnerTextView);
+    TextView maxRound=findViewById(R.id.maxRTextView);
+    String a;
+
+    public LeaderBoard(List<Player> playerList)
     {
         this.list = playerList;
-
-        // return playerList;
+        showList();
     }
-       // Collections.sort(playerList, Collections.reverseOrder());
+    public LeaderBoard(List<Player> playerList,String a)
+    {
+        this.list = playerList;
+        this.a=a;
+        showList();
+    }
+    public LeaderBoard(List<Player> playerList,String a,int b)
+    {
+        this.list = playerList;
+        this.a=a;
+        showList();
+    }
 
 
     @Override
@@ -39,9 +53,13 @@ public class leaderBoard extends AppCompatActivity {
     private void showList() {
         for (Player p: list)
         {
-            mytxt.append(p.toString()+ "\n\n");
-
+            mytext.append(p.toString()+ "\n\n");
         }
+        if(a=="winner")
+            winnerText.setText("winner is found");
+        else if(a=="maxRound")
+            winnerText.setText("Max Round is reached");
+
     }
     public void nextRound(View view) {
         Intent intent = new Intent(this, TurnSwitching.class);
