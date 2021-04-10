@@ -71,8 +71,6 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         
         setContentView(R.layout.activity_storyteller);
 
-        loadDataset();
-
         // When user chooses lie/truth, screen view changes for storyteller to tell story
         View.OnClickListener truthListener = new View.OnClickListener() {
             public void onClick(View view) {
