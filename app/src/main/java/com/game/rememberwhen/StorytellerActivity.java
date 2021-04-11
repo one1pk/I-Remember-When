@@ -91,6 +91,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         View.OnClickListener doneListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cTimer.cancel();
                 flipper.showNext();
                 startTimer();
                 dsFinishBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +108,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         View.OnClickListener truthListener = new View.OnClickListener() {
             public void onClick(View view) {
                 flipper.showNext();
+                buttonMoreTime.setVisibility(View.INVISIBLE);
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
@@ -120,6 +122,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
             public void onClick(View view) {
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 flipper.showNext();
+                buttonMoreTime.setVisibility(View.INVISIBLE);
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
                 new Score("makeItUp");
@@ -186,8 +189,8 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
             // update timer every second
             public void onTick(long millisUntilFinished) {
                 timeLeft = (int)(millisUntilFinished / 1000);
-                timerTextView1.setText("Time Left: " + timeLeft);
-                timerTextView.setText("Time Left: " + timeLeft);
+                timerTextView1.setText(String.valueOf(timeLeft));
+                timerTextView.setText(String.valueOf(timeLeft));
                 // display option for More Time when time left is under 10 seconds
                 if(timeLeft <= 10) {
                     buttonMoreTime.setVisibility(View.VISIBLE);
@@ -196,14 +199,42 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                         public void onClick(View view) {
                             timeLeft += 30;
                             buttonMoreTime.setVisibility(View.INVISIBLE);
+                            cTimer.cancel();
+                            continueTimer(timeLeft);
                         }
                     });
                 }
             }
             // end storytelling phase once timer runs out
             public void onFinish() {
-                flipper.showNext();
-                cTimer.cancel();
+                if(flipper.getDisplayedChild() == 1) {
+                    buttonDone.performClick();
+                }
+                else {
+                    dsFinishBtn.performClick();
+                }
+            }
+        };
+        cTimer.start();
+    }
+
+    private void continueTimer(int timeLeftPlus) {
+        timeLeft = timeLeftPlus;
+        cTimer = new CountDownTimer(timeLeft*1000, 1000) {
+            // update timer every second
+            public void onTick(long millisUntilFinished) {
+                timeLeft = (int)(millisUntilFinished / 1000);
+                timerTextView1.setText(String.valueOf(timeLeft));
+                timerTextView.setText(String.valueOf(timeLeft));
+            }
+            // end storytelling phase once timer runs out
+            public void onFinish() {
+                if(flipper.getDisplayedChild() == 1) {
+                    buttonDone.performClick();
+                }
+                else {
+                    dsFinishBtn.performClick();
+                }
             }
         };
         cTimer.start();
