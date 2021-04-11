@@ -1,7 +1,6 @@
 package com.game.rememberwhen;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +38,7 @@ public class Score {
             final CollectionReference collection = db.collection("/rooms");
             if (playerList.get(i).getScore() == 500) {
                 // playersListText.setText("Winner found");
-                new LeaderBoard(playerList,"winner",0);
+                new LeaderBoardActivity(playerList,"winner",0);
 
             }
 
@@ -144,7 +143,7 @@ public class Score {
                 }
             }
 
-            new LeaderBoard(playerList);
+            new LeaderBoardActivity(playerList);
         }
 
     }

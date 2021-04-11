@@ -30,7 +30,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO [Delaram] update scores
                 new Score("truth",0);
-                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoard.class);
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
                 startActivity(intentLeaderboard);
             }
         });
@@ -40,7 +40,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO [Delaram] update scores
                 new Score("makeItUp",0);
-                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoard.class);
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
                 startActivity(intentLeaderboard);
             }
         });

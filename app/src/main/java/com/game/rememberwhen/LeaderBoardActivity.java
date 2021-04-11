@@ -14,19 +14,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-public class LeaderBoard extends AppCompatActivity {
+public class LeaderBoardActivity extends AppCompatActivity {
     List<Player> list=new ArrayList<>();
     TextView mytext=findViewById(R.id.mytext);
     TextView winnerText=findViewById(R.id.winnerTextView);
     TextView maxRound=findViewById(R.id.maxRTextView);
     String a;
 
-    public LeaderBoard(List<Player> playerList)
+    public LeaderBoardActivity(){
+
+    }
+    public LeaderBoardActivity(List<Player> playerList)
     {
         this.list = playerList;
         showList();
     }
-    public LeaderBoard(List<Player> playerList,String a)
+    public LeaderBoardActivity(List<Player> playerList, String a)
     {
         this.list = playerList;
         this.a=a;
@@ -35,7 +38,7 @@ public class LeaderBoard extends AppCompatActivity {
         // return playerList;
         //TODO this should be a recyclerView like in ManageNewRoomActivity
     }
-    public LeaderBoard(List<Player> playerList,String a,int b)
+    public LeaderBoardActivity(List<Player> playerList, String a, int b)
     {
         this.list = playerList;
         this.a=a;

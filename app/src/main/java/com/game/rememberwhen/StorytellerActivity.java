@@ -96,7 +96,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 dsFinishBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(StorytellerActivity.this, LeaderBoard.class);
+                        Intent intent = new Intent(StorytellerActivity.this, LeaderBoardActivity.class);
                         startActivity(intent);
                     }
                 });

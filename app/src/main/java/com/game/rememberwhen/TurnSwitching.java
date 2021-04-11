@@ -32,7 +32,7 @@ public class TurnSwitching extends AppCompatActivity {
         if(count==maxRound)
         {
            // playersListText.setText("max round reaches");
-            new LeaderBoard(playerList,"maxRound");
+            new LeaderBoardActivity(playerList,"maxRound");
         }
 
     }
