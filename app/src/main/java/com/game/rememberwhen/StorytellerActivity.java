@@ -1,17 +1,19 @@
 package com.game.rememberwhen;
 
 import android.content.Intent;
-//<<<<<<< app/src/main/java/com/game/rememberwhen/StorytellerActivity.java
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -37,16 +39,20 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
 
     static String prompt;
 
+    private ViewFlipper flipper;
     private TextView promptTextView;
+    private TextView promptTextView2;
     private TextView timerTextView;
+    private TextView timerTextView1;
     private Button lieButton;
     private Button truthButton;
     private Button buttonDone;
     private Button buttonMoreTime;
+    private Button dsFinishBtn;
 
     private int promptCounter = -1;
     private CountDownTimer cTimer = null;
-    private int timeLeft = 120;
+    private int timeLeft;
 
     private ArrayList<Prompt> dataset = new ArrayList<Prompt>();
 
@@ -59,35 +65,67 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         player = (Player) b.getSerializable("player");
         getSelectedUsers.addAll((ArrayList<Player>) b.getSerializable("selectedUsersLIST"));
         System.out.println(getSelectedUsers.toString());
-        
-        setContentView(R.layout.activity_storyteller);
+
+        setContentView(R.layout.story_flipper);
+
+        flipper = (ViewFlipper) findViewById(R.id.storyFlipper);
+        LayoutInflater factory = LayoutInflater.from(this);
+        View firstView = factory.inflate(R.layout.activity_storyteller_talk, null);
+        View secondView = factory.inflate(R.layout.deliberation_storyteller, null);
+        flipper.addView(firstView);
+        flipper.addView(secondView);
+
         truthButton = (Button) findViewById(R.id.truthButton);
         lieButton = (Button) findViewById(R.id.lieButton);
-        timerTextView = (TextView) findViewById(R.id.timer); 
+        timerTextView = (TextView) findViewById(R.id.timerTextView);
+        timerTextView1 = (TextView) findViewById(R.id.textViewTimer1);
+        promptTextView2 = (TextView) findViewById(R.id.textViewPrompt2);
+        buttonDone = (Button) findViewById(R.id.buttonDone);
+        buttonMoreTime = (Button) findViewById(R.id.buttonMoreTime);
+        dsFinishBtn = (Button) findViewById(R.id.dsFinishBtn);
 
         database = FirebaseDatabase.getInstance();
 
         loadDataset();
-        
-        setContentView(R.layout.activity_storyteller);
 
-        loadDataset();
+        View.OnClickListener doneListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flipper.showNext();
+                startTimer();
+                dsFinishBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(StorytellerActivity.this, LeaderBoardActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        };
 
         // When user chooses lie/truth, screen view changes for storyteller to tell story
         View.OnClickListener truthListener = new View.OnClickListener() {
             public void onClick(View view) {
-                setContentView(R.layout.activity_storyteller_talk);
+                flipper.showNext();
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
+                new Score("truth");
+
+                promptTextView2.setText(prompt);
+                buttonDone.setOnClickListener(doneListener);
             }
         };
         View.OnClickListener lieListener = new View.OnClickListener() {
             public void onClick(View view) {
                 StorytellerActivity.this.onMultipleUsersAction(true);
-                setContentView(R.layout.activity_storyteller_talk);
+                flipper.showNext();
                 startTimer(); // begin timer on display
                 // TODO [DELARAM] change score status
+                new Score("makeItUp");
+
+                promptTextView2.setText(prompt);
+                buttonDone.setOnClickListener(doneListener);
             }
         };
 
@@ -143,27 +181,32 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
     }
 
     private void startTimer() {
-        cTimer.start();
+        timeLeft = 120;
         cTimer = new CountDownTimer(timeLeft*1000, 1000) {
             // update timer every second
             public void onTick(long millisUntilFinished) {
                 timeLeft = (int)(millisUntilFinished / 1000);
+                timerTextView1.setText("Time Left: " + timeLeft);
                 timerTextView.setText("Time Left: " + timeLeft);
                 // display option for More Time when time left is under 10 seconds
                 if(timeLeft <= 10) {
                     buttonMoreTime.setVisibility(View.VISIBLE);
+                    buttonMoreTime.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            timeLeft += 30;
+                            buttonMoreTime.setVisibility(View.INVISIBLE);
+                        }
+                    });
                 }
             }
             // end storytelling phase once timer runs out
             public void onFinish() {
-                endStoryTime(buttonDone);
+                flipper.showNext();
+                cTimer.cancel();
             }
         };
-    }
-
-    private void endStoryTime(View view) {
-        // TODO switch to Deliberation Activity
-        cTimer.cancel();
+        cTimer.start();
     }
 
     // function called when 'Rules' button pressed (onClick in .xml)
