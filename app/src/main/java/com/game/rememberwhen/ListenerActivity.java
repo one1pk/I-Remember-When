@@ -21,6 +21,10 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
 
         loadUI();
 
+    }
+
+    public void voteNow(View view) {
+        setContentView(R.layout.deliberation_listener);
         voteTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,10 +44,6 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 startActivity(intentLeaderboard);
             }
         });
-    }
-
-    public void voteNow(View view) {
-        setContentView(R.layout.deliberation_listener);
     }
 
     public void openRules(View view) {

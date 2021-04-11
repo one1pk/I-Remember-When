@@ -127,6 +127,20 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/voteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:layout_marginBottom="160dp"
+        android:background="@drawable/rules_button_selector"
+        android:onClick="voteNow"
+        android:text="VOTE NOW"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/quitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
