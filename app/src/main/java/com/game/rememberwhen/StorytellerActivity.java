@@ -79,7 +79,8 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 setContentView(R.layout.activity_storyteller_talk);
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 startTimer(); // begin timer on display
-                // TODO [DELARAM] change score status
+                // TODO [DELARAM] change score status//Done
+                new Score("truth");
             }
         };
         View.OnClickListener lieListener = new View.OnClickListener() {
@@ -87,7 +88,9 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 setContentView(R.layout.activity_storyteller_talk);
                 startTimer(); // begin timer on display
-                // TODO [DELARAM] change score status
+                // TODO [DELARAM] change score status//Done
+                new Score("makeItUp");
+
             }
         };
 

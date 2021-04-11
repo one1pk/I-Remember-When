@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,27 +15,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-public class leaderBoard extends AppCompatActivity {
+public class LeaderBoard extends AppCompatActivity {
     List<Player> list=new ArrayList<>();
     TextView mytxt=findViewById(R.id.mytext);
-    public leaderBoard(List<Player> playerList)
+    private Button nextBtn;
+    public LeaderBoard(List<Player> playerList)
     {
         this.list = playerList;
-
-        // return playerList;
+        showList();
         //TODO this should be a recyclerView like in ManageNewRoomActivity
     }
-       // Collections.sort(playerList, Collections.reverseOrder());
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboard);
+        nextBtn = (Button) findViewById(R.id.nextRoundbutton);
         Collections.sort(list,Collections.reverseOrder());
         showList();
 
+        Intent intent = new Intent(this, TurnSwitching.class);
+        View.OnClickListener nextRoundActivity = new View.OnClickListener() {
+            public void onClick(View view) {
+                startActivity(intent);
+            }
+        };
 
+        nextBtn.setOnClickListener(nextRoundActivity);
     }
 
     private void showList() {
@@ -43,10 +51,6 @@ public class leaderBoard extends AppCompatActivity {
             mytxt.append(p.toString()+ "\n\n");
 
         }
-    }
-    public void nextRound(View view) {
-        Intent intent = new Intent(this, TurnSwitching.class);
-        startActivity(intent);
     }
 
 }

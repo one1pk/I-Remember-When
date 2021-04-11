@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-import java.util.ArrayList;
 public class TurnSwitching extends AppCompatActivity {
     TextView playersListText;
     Player player;
@@ -18,6 +17,7 @@ public class TurnSwitching extends AppCompatActivity {
             if(playerList.get(i).getStatus().equals("storyteller")) {
                 playerList.get(i).setStatus("listener");
                 playerList.get(i + 1).setStatus("storyteller");
+                count+=1;
             }
         }
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
@@ -29,11 +29,12 @@ public class TurnSwitching extends AppCompatActivity {
         else {
             startActivity(intentRest);
         }
-        count+=1;
+
         if(count==maxRound)
         {
-            playersListText.setText("max round reaches");
-            new leaderBoard(playerList);
+            //playersListText.setText("max round reaches");
+           // new LeaderBoard(playerList);
+            new WinnerActivity(playerList);
         }
 
     }
