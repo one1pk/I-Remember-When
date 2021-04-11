@@ -15,11 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-public class LeaderBoard extends AppCompatActivity {
+public class LeaderBoardActivity extends AppCompatActivity {
     List<Player> list=new ArrayList<>();
     TextView mytxt=findViewById(R.id.mytext);
     private Button nextBtn;
-    public LeaderBoard(List<Player> playerList)
+    public LeaderBoardActivity(List<Player> playerList)
     {
         this.list = playerList;
         showList();

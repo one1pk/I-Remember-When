@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Score extends AppCompatActivity{
@@ -147,7 +146,7 @@ public class Score extends AppCompatActivity{
 
 
         }
-        new LeaderBoard(playerList);
+        new LeaderBoardActivity(playerList);
 
     }
 

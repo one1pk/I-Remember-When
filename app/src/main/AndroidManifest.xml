@@ -60,6 +60,15 @@
                 "screenSize|smallestScreenSize|screenLayout|orientation"></activity>
 
         <activity android:name=".RulesActivity"></activity>
+        <activity
+            android:name=".LeaderBoardActivity"
+            tools:ignore="Instantiatable">
+        </activity>
+        <activity
+            android:name=".WinnerActivity"
+            tools:ignore="Instantiatable">
+        </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
