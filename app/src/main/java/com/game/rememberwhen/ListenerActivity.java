@@ -3,32 +3,67 @@ package com.game.rememberwhen;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 public class ListenerActivity<prompt> extends AppCompatActivity {
 
+    private ViewFlipper flipper;
+
     private TextView prompt;
+    private TextView timer;
     private Button voteTrue;
     private Button voteFalse;
+    private Button voteNow;
+
+    private CountDownTimer cTimer = null;
+    private int timeLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
-        setContentView(R.layout.activity_listener);
+        setContentView(R.layout.listener_flipper);
+
+        flipper = (ViewFlipper) findViewById(R.id.storyFlipper);
+        LayoutInflater factory = LayoutInflater.from(this);
+        View firstView = factory.inflate(R.layout.deliberation_listener, null);
+        flipper.addView(firstView);
 
         loadUI();
 
+        voteNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flipper.showNext();
+                setBtnListeners();
+                startTimer();
+            }
+        });
+
     }
 
-    public void voteNow(View view) {
-        setContentView(R.layout.deliberation_listener);
+    //TODO import current prompt, storyteller, and when done telling the story from StorytellerActivity.java
+    private void loadUI() {
+        //display prompt
+        prompt = findViewById(R.id.displayPrompt);
+        prompt.setText(StorytellerActivity.getPrompt()); //TODO SET IN FIREBASE OR SEND FCM DATA MESSAGE TO ALL USERS StoryTeller.Device can not share that here
+        timer = findViewById(R.id.timerTextView);
+
+        voteNow = findViewById(R.id.voteBtn);
+        voteTrue = findViewById(R.id.listenerVoteTrue);
+        voteFalse = findViewById(R.id.listenerVoteFalse);
+    }
+
+    public void setBtnListeners() {
         voteTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO [Delaram] update scores
+                cTimer.cancel();
                 new Score("truth",0);
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
                 startActivity(intentLeaderboard);
@@ -38,7 +73,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         voteFalse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO [Delaram] update scores
+                cTimer.cancel();
                 new Score("makeItUp",0);
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
                 startActivity(intentLeaderboard);
@@ -46,20 +81,28 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         });
     }
 
+    private void startTimer() {
+        timeLeft = 120;
+        cTimer = new CountDownTimer(timeLeft*1000, 1000) {
+            // update timer every second
+            public void onTick(long millisUntilFinished) {
+                timeLeft = (int)(millisUntilFinished / 1000);
+                timer.setText(String.valueOf(timeLeft));
+            }
+            // end storytelling phase once timer runs out
+            public void onFinish() {
+                // TODO [Delaram] update scores for when player hasn't answered in time
+
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
+                startActivity(intentLeaderboard);
+            }
+        };
+        cTimer.start();
+    }
+
     public void openRules(View view) {
         Intent intent = new Intent(this, RulesActivity.class);
         startActivity(intent);
     }
-
-    //TODO import current prompt, storyteller, and when done telling the story from StorytellerActivity.java
-    private void loadUI() {
-        //display prompt
-        TextView Prompt = findViewById(R.id.displayPrompt);
-        Prompt.setText(StorytellerActivity.getPrompt()); //TODO SET IN FIREBASE OR SEND FCM DATA MESSAGE TO ALL USERS StoryTeller.Device can not share that here
-
-        voteTrue = findViewById(R.id.listenerVoteTrue);
-        voteFalse = findViewById(R.id.listenerVoteFalse);
-    }
-
 
 }
