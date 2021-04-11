@@ -130,13 +130,11 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/ObjectiveCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="638dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/OverviewCard">
@@ -163,13 +161,12 @@
 
                     <TextView
                         android:id="@+id/objStorytellerRole"
-                        android:layout_width="127dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="left"
                         android:layout_marginStart="1dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="200dp"
-                        android:layout_marginRight="200dp"
                         android:background="#26B5D4"
                         android:fontFamily="@font/cabin_semibold"
                         android:gravity="center_horizontal"
@@ -182,27 +179,27 @@
                         android:id="@+id/storytellerDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
                         android:fontFamily="@font/cabin_semibold"
                         android:text="@string/rules_obj_storyteller"
                         android:textSize="20sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/storytellerptsLine1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:layout_marginStart="10dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginRight="5dp"
                             android:fontFamily="@font/cabin_semibold"
@@ -223,6 +220,7 @@
 
 
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/perPlayer1"
                         android:layout_width="wrap_content"
@@ -232,9 +230,10 @@
                         android:fontFamily="@font/cabin_semibold"
                         android:text="@string/rules_obj_per_listener"
                         android:textSize="18sp" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
@@ -273,7 +272,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
@@ -302,13 +301,11 @@
 
                     <TextView
                         android:id="@+id/objListenerRole"
-                        android:layout_width="98dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="1dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="200dp"
-                        android:layout_marginRight="200dp"
                         android:background="#26B5D4"
                         android:fontFamily="@font/cabin_semibold"
                         android:gravity="center_horizontal"
@@ -321,27 +318,27 @@
                         android:id="@+id/objListenerInst"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
                         android:fontFamily="@font/cabin_semibold"
                         android:text="@string/rules_obj_listener"
                         android:textSize="20sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/listenerPtsLine1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:layout_marginStart="15dp"
                             android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginRight="5dp"
                             android:background="#FFFFFF"
@@ -367,7 +364,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
@@ -399,17 +396,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/listenerPtsLine3"
-                            android:layout_width="242dp"
+                            android:layout_width="230dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginRight="5dp"
                             android:fontFamily="@font/cabin_semibold"
                             android:text="@string/rules_obj_listener_pts_line3"
                             android:textSize="18sp" />
