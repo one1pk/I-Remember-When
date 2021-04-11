@@ -154,7 +154,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textViewTimer"
+                        android:id="@+id/textViewTimer1"
                         android:layout_width="wrap_content"
                         android:layout_height="76dp"
                         android:layout_marginStart="10dp"
