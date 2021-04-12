@@ -19,6 +19,9 @@ public class LeaderboardActivity extends AppCompatActivity {
     List<Player> list=new ArrayList<>();
     TextView mytxt=findViewById(R.id.mytext);
     private Button nextBtn;
+
+    public LeaderboardActivity(){}
+
     public LeaderboardActivity(List<Player> playerList)
     {
         this.list = playerList;

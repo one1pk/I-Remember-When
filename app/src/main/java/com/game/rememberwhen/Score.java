@@ -147,7 +147,7 @@ public class Score extends AppCompatActivity{
 
 
         }
-        new LeaderBoard(playerList);
+        new LeaderboardActivity(playerList);
 
     }
 

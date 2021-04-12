@@ -29,7 +29,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         setContentView(R.layout.listener_flipper);
 
-        flipper = (ViewFlipper) findViewById(R.id.storyFlipper);
+        flipper = (ViewFlipper) findViewById(R.id.listenerFlipper);
         LayoutInflater factory = LayoutInflater.from(this);
         View firstView = factory.inflate(R.layout.deliberation_listener, null);
         flipper.addView(firstView);
