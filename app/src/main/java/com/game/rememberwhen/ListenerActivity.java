@@ -51,11 +51,8 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //TODO import current prompt, storyteller, and when done telling the story from StorytellerActivity.java
+    //TODO note to everyone: removed functionality for prompt to be displayed as it is no longer necessary. does this method need to be here anymore?
     private void loadUI() {
-        //display prompt
-        TextView Prompt = findViewById(R.id.displayPrompt);
-        Prompt.setText(StorytellerActivity.getPrompt()); //TODO SET IN FIREBASE OR SEND FCM DATA MESSAGE TO ALL USERS StoryTeller.Device can not share that here
 
         voteTrue = findViewById(R.id.listenerVoteTrue);
         voteFalse = findViewById(R.id.listenerVoteFalse);
