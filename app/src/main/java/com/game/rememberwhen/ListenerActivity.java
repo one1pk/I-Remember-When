@@ -65,7 +65,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             public void onClick(View view) {
                 cTimer.cancel();
                 new Score("truth",0);
-                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
                 startActivity(intentLeaderboard);
             }
         });
@@ -75,7 +75,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             public void onClick(View view) {
                 cTimer.cancel();
                 new Score("makeItUp",0);
-                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
                 startActivity(intentLeaderboard);
             }
         });
@@ -91,9 +91,8 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             }
             // end storytelling phase once timer runs out
             public void onFinish() {
-                // TODO [Delaram] update scores for when player hasn't answered in time
-
-                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderBoardActivity.class);
+                new Score("",0);
+                Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
                 startActivity(intentLeaderboard);
             }
         };

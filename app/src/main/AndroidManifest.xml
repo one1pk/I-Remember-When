@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LeaderBoardActivity">
+            android:name=".LeaderboardActivity"
+            tools:ignore="Instantiatable">
         </activity>
         <activity
             android:name=".StorytellerActivity"

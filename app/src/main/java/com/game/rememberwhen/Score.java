@@ -2,14 +2,18 @@ package com.game.rememberwhen;
 
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Collections;
 import java.util.List;
 
-public class Score {
+public class Score extends AppCompatActivity{
+
+   // private final Bundle savedInstanceState = new Bundle();
     TextView playersListText;
     RecyclerView players_list_view;
     Player player;
@@ -32,14 +36,12 @@ public class Score {
         respond=a;
     }
 
-    public Score(List<Player> playerList) {
+    public Score(List<Player> playerList){
         for (int i = 0; i < playerList.size(); i++) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             final CollectionReference collection = db.collection("/rooms");
             if (playerList.get(i).getScore() == 500) {
-                // playersListText.setText("Winner found");
-                new LeaderBoardActivity(playerList,"winner",0);
-
+              new WinnerActivity(playerList);
             }
 
             if (playerList.get(i).getStatus().equals("storyteller")) {
@@ -55,7 +57,7 @@ public class Score {
                             );
                             break;
 
-                        case "makeItUp":
+                        case "MakeItUp":
                             db.collection("/rooms").document("name").update(
                                     "score", player.getScore() - 10
                             );
@@ -78,7 +80,7 @@ public class Score {
                             );
                             break;
 
-                        case "makeItUp":
+                        case "MakeItUp":
                             db.collection("/rooms").document("name").update(
                                     "score", player.getScore()  - 20
                             );
@@ -91,7 +93,7 @@ public class Score {
                 }
 
             } else {
-                if (getAnswer().equals("")) {
+                if (getRespond().equals("")) {
                     db.collection("/rooms").document("name").update(
                             "score", player.getScore() - 10
                     );
@@ -110,7 +112,7 @@ public class Score {
                             );
                             break;
 
-                        case "makeItUp":
+                        case "MakeItUp":
                             db.collection("/rooms").document("name").update(
                                     "score", player.getScore()  - 10
                             );
@@ -131,7 +133,7 @@ public class Score {
                             );
                             break;
 
-                        case "makeItUp":
+                        case "MakeItUp":
                             db.collection("/rooms").document("name").update(
                                     "score", player.getScore() + 10
                             );
@@ -143,8 +145,9 @@ public class Score {
                 }
             }
 
-            new LeaderBoardActivity(playerList);
+
         }
+        new LeaderBoard(playerList);
 
     }
 
