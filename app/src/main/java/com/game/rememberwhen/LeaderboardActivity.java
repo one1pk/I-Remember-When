@@ -26,6 +26,7 @@ import java.util.Collections;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private ArrayList<Player> players;
+    private ArrayList<Player> players2;
     private TextView mytxt;
     private Button nextBtn;
     private Player player;
@@ -38,8 +39,10 @@ public class LeaderboardActivity extends AppCompatActivity {
         setContentView(R.layout.leaderboard);
         b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
+        players2 = (ArrayList<Player>)b.getSerializable("allPlayers");
+
         nextBtn = (Button) findViewById(R.id.nextRoundbutton);
-        mytxt=findViewById(R.id.mytext);
+        mytxt = findViewById(R.id.mytext);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("/rooms").document(b.get("roomId").toString());
@@ -80,7 +83,10 @@ public class LeaderboardActivity extends AppCompatActivity {
         for (Player p: players)
         {
             mytxt.append(p.toString()+ "\n\n");
-
+        }
+        for (Player p: players2)
+        {
+            mytxt.append(p.toString()+ "\n\n");
         }
     }
 
