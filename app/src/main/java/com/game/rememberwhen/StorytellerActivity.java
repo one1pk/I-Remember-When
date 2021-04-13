@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -34,6 +36,8 @@ import java.util.Collections;
 
 public class StorytellerActivity extends AppCompatActivity implements PlayerListener {
     private FirebaseDatabase database;
+    private FirebaseFirestore db;
+    private DocumentReference docRef;
     private Player player;
     private ArrayList<Player> getSelectedUsers = new ArrayList<>();
 
@@ -85,6 +89,8 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         dsFinishBtn = (Button) findViewById(R.id.dsFinishBtn);
 
         database = FirebaseDatabase.getInstance();
+        db = FirebaseFirestore.getInstance();
+        docRef = db.collection("/rooms").document(b.get("roomId").toString());
 
         loadDataset();
 
@@ -115,6 +121,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 // change score status
                 // new Score("truth");
                 player.setResponse("truth");
+                docRef.update("response", "truth");
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 promptTextView2.setText(prompt);
@@ -130,6 +137,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 // change score status
                 // new Score("makeItUp");
                 player.setResponse("MakeItUp");
+                docRef.update("response", "MakeItUp");
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 promptTextView2.setText(prompt);

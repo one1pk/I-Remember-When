@@ -10,7 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class ListenerActivity<prompt> extends AppCompatActivity {
+
+    private FirebaseFirestore db;
+    private DocumentReference docRef;
+
 
     private Bundle b;
     private ViewFlipper flipper;
@@ -49,6 +56,8 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             }
         });
 
+        db = FirebaseFirestore.getInstance();
+        docRef = db.collection("/rooms").document(b.get("roomId").toString());
     }
 
     //TODO import current prompt, storyteller, and when done telling the story from StorytellerActivity.java
@@ -64,12 +73,14 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
     }
 
     public void setBtnListeners() {
+
         voteTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cTimer.cancel();
                 // new Score("truth",0);
                 player.setResponse("truth");
+                docRef.update("response", "truth");
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
@@ -84,6 +95,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 cTimer.cancel();
                 // new Score("makeItUp",0);
                 player.setResponse("MakeItUp");
+                docRef.update("response", "MakeItUp");
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
@@ -104,6 +116,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             // end storytelling phase once timer runs out
             public void onFinish() {
                 player.setResponse("");
+                docRef.update("response", "");
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
