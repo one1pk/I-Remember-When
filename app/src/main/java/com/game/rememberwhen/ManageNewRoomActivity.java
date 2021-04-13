@@ -127,6 +127,8 @@ public class ManageNewRoomActivity extends AppCompatActivity {
             startActivity(intentHost);
         }
         else {
+            b.putSerializable("player", player);
+            intentRest.putExtras(b);
             startActivity(intentRest);
         }
     }

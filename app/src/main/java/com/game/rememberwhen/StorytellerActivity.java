@@ -111,8 +111,10 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 buttonMoreTime.setVisibility(View.INVISIBLE);
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 startTimer(); // begin timer on display
-                // TODO [DELARAM] change score status
-                new Score("truth");
+                // change score status
+                // new Score("truth");
+                player.setResponse("truth");
+                Score.updateScore(b.get("roomId").toString(), player);
 
                 promptTextView2.setText(prompt);
                 buttonDone.setOnClickListener(doneListener);
@@ -124,8 +126,10 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 flipper.showNext();
                 buttonMoreTime.setVisibility(View.INVISIBLE);
                 startTimer(); // begin timer on display
-                // TODO [DELARAM] change score status
-                new Score("makeItUp");
+                // change score status
+                // new Score("makeItUp");
+                player.setResponse("MakeItUp");
+                Score.updateScore(b.get("roomId").toString(), player);
 
                 promptTextView2.setText(prompt);
                 buttonDone.setOnClickListener(doneListener);

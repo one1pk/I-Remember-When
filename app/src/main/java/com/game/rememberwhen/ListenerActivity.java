@@ -12,7 +12,10 @@ import android.widget.ViewFlipper;
 
 public class ListenerActivity<prompt> extends AppCompatActivity {
 
+    private Bundle b;
     private ViewFlipper flipper;
+
+    private Player player;
 
     private TextView prompt;
     private TextView timer;
@@ -26,7 +29,8 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle b = getIntent().getExtras();
+        b = getIntent().getExtras();
+        player = (Player) b.getSerializable("player");
         setContentView(R.layout.listener_flipper);
 
         flipper = (ViewFlipper) findViewById(R.id.listenerFlipper);
@@ -64,7 +68,10 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cTimer.cancel();
-                new Score("truth",0);
+                // new Score("truth",0);
+                player.setResponse("truth");
+                Score.updateScore(b.get("roomId").toString(), player);
+
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
                 startActivity(intentLeaderboard);
             }
@@ -74,7 +81,10 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cTimer.cancel();
-                new Score("makeItUp",0);
+                // new Score("makeItUp",0);
+                player.setResponse("MakeItUp");
+                Score.updateScore(b.get("roomId").toString(), player);
+
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
                 startActivity(intentLeaderboard);
             }
@@ -91,7 +101,9 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             }
             // end storytelling phase once timer runs out
             public void onFinish() {
-                new Score("",0);
+                player.setResponse("");
+                Score.updateScore(b.get("roomId").toString(), player);
+
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
                 startActivity(intentLeaderboard);
             }

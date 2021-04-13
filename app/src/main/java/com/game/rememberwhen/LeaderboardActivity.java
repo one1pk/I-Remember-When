@@ -1,4 +1,5 @@
 package com.game.rememberwhen;
+
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+
 public class LeaderboardActivity extends AppCompatActivity {
-    List<Player> list=new ArrayList<>();
-    TextView mytxt=findViewById(R.id.mytext);
+    private List<Player> list=new ArrayList<>();
+    private TextView mytxt=findViewById(R.id.mytext);
     private Button nextBtn;
 
     public LeaderboardActivity(){}

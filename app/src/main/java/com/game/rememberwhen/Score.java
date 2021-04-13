@@ -6,36 +6,156 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Score extends AppCompatActivity{
+import static java.lang.reflect.Array.getLength;
 
-   // private final Bundle savedInstanceState = new Bundle();
+public class Score {
+
+    private static String answer;
+    private static String response;
+    // private final Bundle savedInstanceState = new Bundle();
     TextView playersListText;
     RecyclerView players_list_view;
-    Player player;
+    private static Player player;
     //here answer means if storyteller tells truth or lie
-    String answer;
-    public String getAnswer() { return answer; }
 
-    //the respond that gets from listeners
-    String respond;
-    public String getRespond() { return respond; }
+    public Score() {}
 
-    //Intent intent = getIntent();
-   // int diffScore;
-    public Score(String a)
-    {
-        answer=a;
+    public static void updateScore(String room, Player player1){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("/rooms").document(room);
+        DocumentSnapshot docSnap = docRef.get().getResult();
+        ArrayList<Player> players = ((ArrayList<Player>)docSnap.get("users"));
+        int numPlayers = getLength((Array)docSnap.get("users"));
+        for (int i = 0; i < numPlayers; i++) {
+            if (players.get(i).getStatus().equals("storyteller")) {
+                answer = players.get(i).getResponse();
+            }
+        }
+        for (int i = 0; i < numPlayers; i++) {
+                if (players.get(i).equals(player1)) {
+                    player = players.get(i);
+                    if (player.getStatus().equals("storyteller")) {
+                        // check responses of each player to calc score of storyteller
+                        for(int j = 0; j < numPlayers-1; j++) {
+                            // modular addition makes sure to check all players before and after storyteller
+                            response = players.get((j + i) % (numPlayers - 1)).getResponse();
+                            if (answer.equals("truth")) {
+                                switch (response) {
+                                    case "truth":
+
+                                        docRef.update(
+                                                "score", player.getScore() + 10
+                                        );
+                                        docRef.update(
+                                                "score dif", 10
+                                        );
+                                        break;
+
+                                    case "MakeItUp":
+                                        docRef.update(
+                                                "score", player.getScore() - 10
+                                        );
+                                        docRef.update(
+                                                "score dif", -10
+                                        );
+
+                                        break;
+
+
+                                }
+                            } else {
+                                switch (response) {
+                                    case "truth":
+                                        docRef.update(
+                                                "score", player.getScore() + 20
+                                        );
+                                        docRef.update(
+                                                "score dif", 20
+                                        );
+                                        break;
+
+                                    case "MakeItUp":
+                                        docRef.update(
+                                                "score", player.getScore() - 20
+                                        );
+                                        docRef.update(
+                                                "score dif", -20
+                                        );
+                                        break;
+
+                                }
+                            }
+                        }
+
+                    } else {
+                        response = player.getResponse();
+                        if (response.equals("")) {
+                            docRef.update(
+                                    "score", player.getScore() - 10
+                            );
+                            docRef.update(
+                                    "score dif", -10
+                            );
+
+                        } else if (answer.equals("truth")) {
+                            switch (response) {
+                                case "truth":
+                                    docRef.update(
+                                            "score", player.getScore() + 10
+                                    );
+                                    docRef.update(
+                                            "score dif", +10
+                                    );
+                                    break;
+
+                                case "MakeItUp":
+                                    docRef.update(
+                                            "score", player.getScore() - 10
+                                    );
+                                    docRef.update(
+                                            "score dif", -10
+                                    );
+                                    break;
+
+                            }
+                        } else {
+                            switch (response) {
+                                case "truth":
+                                    docRef.update(
+                                            "score", player.getScore() - 5
+                                    );
+                                    docRef.update(
+                                            "score dif", -5
+                                    );
+                                    break;
+
+                                case "MakeItUp":
+                                    docRef.update(
+                                            "score", player.getScore() + 10
+                                    );
+                                    docRef.update(
+                                            "score dif", +10
+                                    );
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
     }
-    public Score(String a,int b)
-    {
-        respond=a;
-    }
-
+/*
     public Score(List<Player> playerList){
         for (int i = 0; i < playerList.size(); i++) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -151,4 +271,5 @@ public class Score extends AppCompatActivity{
 
     }
 
-}
+ */
+
