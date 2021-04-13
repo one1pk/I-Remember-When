@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.game.rememberwhen.utilities.FireStoreWorker;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -23,11 +24,13 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
     private ViewFlipper flipper;
 
     private Player player;
+    private String roomID;
 
     private TextView timer;
     private Button voteTrue;
     private Button voteFalse;
     private Button voteNow;
+    private Button quitBtn;
 
     private CountDownTimer cTimer = null;
     private int timeLeft;
@@ -37,6 +40,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
+        roomID = String.valueOf(player.getRoomId());
         setContentView(R.layout.listener_flipper);
 
         flipper = (ViewFlipper) findViewById(R.id.listenerFlipper);
@@ -45,6 +49,15 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         flipper.addView(firstView);
 
         loadUI();
+
+        quitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FireStoreWorker().playerQuit(roomID, player);
+                startActivity(new Intent(ListenerActivity.this, MainActivity.class));
+            }
+        });
+
 
         voteNow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +74,8 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
 
     //TODO import current prompt, storyteller, and when done telling the story from StorytellerActivity.java
     private void loadUI() {
-        //display prompt
-       timer = findViewById(R.id.timerTextView);
-
+        timer = findViewById(R.id.timerTextView);
+        quitBtn = findViewById(R.id.quitBtn);
         voteNow = findViewById(R.id.voteBtn);
         voteTrue = findViewById(R.id.listenerVoteTrue);
         voteFalse = findViewById(R.id.listenerVoteFalse);

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.rememberwhen.listeners.PlayerListener;
 
+import com.game.rememberwhen.utilities.FireStoreWorker;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +40,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
     private FirebaseFirestore db;
     private DocumentReference docRef;
     private Player player;
+    private String roomID;
     private ArrayList<Player> getSelectedUsers = new ArrayList<>();
 
     static String prompt;
@@ -53,6 +55,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
     private Button buttonDone;
     private Button buttonMoreTime;
     private Button dsFinishBtn;
+    private Button quitBtn;
 
     private int promptCounter = -1;
     private CountDownTimer cTimer = null;
@@ -67,6 +70,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
+        roomID = String.valueOf(player.getRoomId());
         getSelectedUsers.addAll((ArrayList<Player>) b.getSerializable("selectedUsersLIST"));
         System.out.println(getSelectedUsers.toString());
 
@@ -79,20 +83,21 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         flipper.addView(firstView);
         flipper.addView(secondView);
 
-        truthButton = (Button) findViewById(R.id.truthButton);
-        lieButton = (Button) findViewById(R.id.lieButton);
-        timerTextView = (TextView) findViewById(R.id.timerTextView);
-        timerTextView1 = (TextView) findViewById(R.id.textViewTimer1);
-        promptTextView2 = (TextView) findViewById(R.id.textViewPrompt2);
-        buttonDone = (Button) findViewById(R.id.buttonDone);
-        buttonMoreTime = (Button) findViewById(R.id.buttonMoreTime);
-        dsFinishBtn = (Button) findViewById(R.id.dsFinishBtn);
-
         database = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
         docRef = db.collection("/rooms").document(b.get("roomId").toString());
 
         loadDataset();
+
+
+        quitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FireStoreWorker().playerQuit(roomID, player);
+                startActivity(new Intent(StorytellerActivity.this, MainActivity.class));
+            }
+        });
+
 
         View.OnClickListener doneListener = new View.OnClickListener() {
             @Override
@@ -148,6 +153,18 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         lieButton.setOnClickListener(lieListener);
         truthButton.setOnClickListener(truthListener);
 
+    }
+
+    private void loadUI() {
+        truthButton = (Button) findViewById(R.id.truthButton);
+        lieButton = (Button) findViewById(R.id.lieButton);
+        timerTextView = (TextView) findViewById(R.id.timerTextView);
+        timerTextView1 = (TextView) findViewById(R.id.textViewTimer1);
+        promptTextView2 = (TextView) findViewById(R.id.textViewPrompt2);
+        buttonDone = (Button) findViewById(R.id.buttonDone);
+        buttonMoreTime = (Button) findViewById(R.id.buttonMoreTime);
+        dsFinishBtn = (Button) findViewById(R.id.dsFinishBtn);
+        quitBtn = (Button) findViewById(R.id.quitBtn);
     }
 
     private void loadDataset() {
