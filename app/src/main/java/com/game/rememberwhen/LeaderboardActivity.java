@@ -28,6 +28,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private ArrayList<Player> players;
     private TextView mytxt;
     private Button nextBtn;
+    private Player player;
 
     Bundle b;
 
@@ -36,6 +37,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboard);
         b = getIntent().getExtras();
+        player = (Player) b.getSerializable("player");
         nextBtn = (Button) findViewById(R.id.nextRoundbutton);
         mytxt=findViewById(R.id.mytext);
 
@@ -53,14 +55,25 @@ public class LeaderboardActivity extends AppCompatActivity {
             }
         });
 
-        /*Intent intent = new Intent(this, TurnSwitching.class);
+        final Intent intentHost = new Intent(this, StorytellerActivity.class);
+        final Intent intentRest = new Intent(this, ListenerActivity.class);
         View.OnClickListener nextRoundActivity = new View.OnClickListener() {
             public void onClick(View view) {
-                startActivity(intent);
+                TurnSwitching.TurnSwitch(b, players, player);
+                intentHost.putExtras(b);
+                startActivity(intentHost);
+                if (player.getStatus().equals("storyteller")) {
+                    intentHost.putExtras(b);
+                    startActivity(intentHost);
+                }
+                else {
+                    intentRest.putExtras(b);
+                    startActivity(intentRest);
+                }
             }
         };
 
-        nextBtn.setOnClickListener(nextRoundActivity);*/
+        nextBtn.setOnClickListener(nextRoundActivity);
     }
 
     private void showList() {
