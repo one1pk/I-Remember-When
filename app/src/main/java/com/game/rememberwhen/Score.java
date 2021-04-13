@@ -59,7 +59,7 @@ public class Score {
                                     // check responses of each player to calc score of storyteller
                                     for (int j = 0; j < numPlayers - 1; j++) {
                                         // modular addition makes sure to check all players before and after storyteller
-                                        response = players.get((j + i) % (numPlayers - 1)).getResponse();
+                                        response = players.get((j + i)%numPlayers).getResponse();
                                         if (answer.equals("truth")) {
                                             switch (response) {
                                                 case "truth":

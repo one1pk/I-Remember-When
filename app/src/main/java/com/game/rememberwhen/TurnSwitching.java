@@ -29,7 +29,7 @@ public class TurnSwitching {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getStatus().equals("storyteller")) {
                 players.get(i).setStatus("listener");
-                players.get((i + 1) % players.size() - 1).setStatus("storyteller");
+                players.get((i + 1) % players.size()).setStatus("storyteller");
                 i++;
             } else {
                 players.get(i).setStatus("listener");
