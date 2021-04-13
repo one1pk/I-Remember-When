@@ -10,6 +10,7 @@ public class Player implements Serializable, Comparable<Player> {
     private int scoreDif;
     private String status;
     public String token;
+    private String response;
 
     // Default Constructor
     public Player() {
@@ -76,6 +77,10 @@ public class Player implements Serializable, Comparable<Player> {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public void setResponse(String response){ this.response = response; }
+
+    public String getResponse(){ return this.response; }
 
     @Override
     public String toString() {
