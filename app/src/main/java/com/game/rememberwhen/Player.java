@@ -99,9 +99,9 @@ public class Player implements Serializable, Comparable<Player> {
     @Override
     public String toString() {
         if (scoreDif > 0)
-            return "Name: " + name + " \tScore:" + score + " \tGained: " + scoreDif;
+            return "Name: " + name + " \tScore: " + score + " \tGained: " + scoreDif;
         else
-            return "Name: " + name + " \tScore:" + score + " \tLost: " + -1 * scoreDif;
+            return "Name: " + name + " \tScore: " + score + " \tLost: " + -1 * scoreDif;
 
     }
 
