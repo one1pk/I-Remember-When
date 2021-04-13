@@ -37,7 +37,7 @@
     <string name="storyteller_deliberation_title">Defend Your Story</string>
     <string name="listener_deliberation_title">Question the Storyteller</string>
     <string name="listener_title">You are a Listener!</string>
-    <string name="listener_instructions">Listen to the story based on the below prompt. Does it sound like a true story, or is it made up? You can grill them about it in the next stage. </string>
+    <string name="listener_instructions">Listen to the story. Does it sound like a true story, or is it made up? You can grill the storyteller about it in the next stage. </string>
     <string name="listener_btn_prompt">Do you think that was a real story?</string>
     <string name="listener_true_btn">  Yes, its a true story  </string>
     <string name="listener_false_btn">  No, its made up  </string>
@@ -60,6 +60,7 @@
     <string name="bkgd">Background Image</string>
     <string name="skip_btn">New Prompt</string>
     <string name="quit_game">Quit Game</string>
+    <string name="background_content_description">image from istockphoto.com, see full html address in strings.xml</string> //https://www.istockphoto.com/vector/seamless–pattern–with–flat-style-board-game-attributes-on-white-background-gm1147962418-309855856
     <string name="activity_incoming_invitation_text_incoming_meeting_invitation">Incoming Meeting Invitation</string>
     <string name="activity_outgoing_invitation_text_sending_meeting_invitation">Sending Meeting Invitation</string>
     <string name="join_hint">4 digit number</string>

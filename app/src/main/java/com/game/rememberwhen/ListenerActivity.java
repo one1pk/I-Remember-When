@@ -24,7 +24,6 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
 
     private Player player;
 
-    private TextView prompt;
     private TextView timer;
     private Button voteTrue;
     private Button voteFalse;
@@ -63,9 +62,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
     //TODO import current prompt, storyteller, and when done telling the story from StorytellerActivity.java
     private void loadUI() {
         //display prompt
-        prompt = findViewById(R.id.displayPrompt);
-        prompt.setText(StorytellerActivity.getPrompt()); //TODO SET IN FIREBASE OR SEND FCM DATA MESSAGE TO ALL USERS StoryTeller.Device can not share that here
-        timer = findViewById(R.id.timerTextView);
+       timer = findViewById(R.id.timerTextView);
 
         voteNow = findViewById(R.id.voteBtn);
         voteTrue = findViewById(R.id.listenerVoteTrue);

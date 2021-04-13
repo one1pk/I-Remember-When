@@ -8,11 +8,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="com.game.rememberwhen.StorytellerActivity">
     <ImageView
         android:id="@+id/backgroundImage"
+        android:contentDescription="@string/background_content_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -31,6 +33,7 @@
 
     <ImageView
         android:id="@+id/backgroundImage2"
+        android:contentDescription="@string/background_content_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitEnd"
@@ -206,6 +209,6 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ViewFlipper>

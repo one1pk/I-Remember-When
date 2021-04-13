@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/backgroundImage"
+        android:contentDescription="@string/background_content_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitStart"
@@ -14,10 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background_image"
-        android:contentDescription="@string/bkgd"/>
+        />
 
     <ImageView
         android:id="@+id/backgroundImage2"
+        android:contentDescription="@string/background_content_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitEnd"
@@ -25,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background_image"
-        android:contentDescription="@string/bkgd" />
+        />
 
     <Button
         android:id="@+id/quitBtn"
