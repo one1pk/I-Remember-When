@@ -8,11 +8,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ListenerActivity"
+        >
+
         <ImageView
             android:id="@+id/backgroundImage"
+            android:contentDescription="@string/background_content_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitStart"
@@ -23,6 +27,7 @@
 
         <ImageView
             android:id="@+id/backgroundImage2"
+            android:contentDescription="@string/background_content_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitEnd"
@@ -33,8 +38,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quitBtn">
@@ -47,8 +52,8 @@
                     android:id="@+id/titleCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -74,8 +79,8 @@
                     android:id="@+id/instructionCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -97,35 +102,23 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/promptCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                <Button
+                    android:id="@+id/voteBtn"
+                    android:layout_width="105dp"
+                    android:layout_height="47dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/button_selector"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:onClick="voteNow"
+                    android:text="VOTE NOW"
+                    android:textColor="#100F0F"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/instructionCard">
+                    app:layout_constraintTop_toBottomOf="@+id/instructionCard" />
 
-                    <TextView
-                        android:id="@+id/displayPrompt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/cabin_semibold"
-                        android:gravity="center_horizontal"
-                        android:text="@string/storyteller_prompt_display"
-                        android:textSize="20sp" />
-
-                </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -145,20 +138,6 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/voteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="168dp"
-            android:layout_marginBottom="160dp"
-            android:background="@drawable/rules_button_selector"
-            android:onClick="voteNow"
-            android:text="VOTE NOW"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
             android:id="@+id/quitBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,5 +150,6 @@
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ViewFlipper>
