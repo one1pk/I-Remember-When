@@ -47,12 +47,11 @@ public class LeaderboardActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot docSnap = task.getResult();
                     players = ((ArrayList<Player>) docSnap.toObject(PlayerDocument.class).users);
+                    Collections.sort(players, Collections.reverseOrder());
+                    showList();
                 }
             }
         });
-
-        Collections.sort(players, Collections.reverseOrder());
-        showList();
 
         /*Intent intent = new Intent(this, TurnSwitching.class);
         View.OnClickListener nextRoundActivity = new View.OnClickListener() {
