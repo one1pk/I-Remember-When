@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.rememberwhen.utilities.FireStoreWorker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,9 +28,12 @@ import java.util.Collections;
 public class LeaderboardActivity extends AppCompatActivity {
     private ArrayList<Player> players;
     private ArrayList<Player> players2;
+    private Player player;
+    private String roomID;
+
     private TextView mytxt;
     private Button nextBtn;
-    private Player player;
+    private Button quitBtn;
 
     Bundle b;
 
@@ -40,9 +44,19 @@ public class LeaderboardActivity extends AppCompatActivity {
         b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
         players2 = (ArrayList<Player>)b.getSerializable("allPlayers");
+        roomID = String.valueOf(player.getRoomId());
 
         nextBtn = (Button) findViewById(R.id.nextRoundbutton);
+        quitBtn = findViewById(R.id.quitBtn);
         mytxt = findViewById(R.id.mytext);
+
+        quitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FireStoreWorker().playerQuit(roomID, player);
+                startActivity(new Intent(LeaderboardActivity.this, MainActivity.class));
+            }
+        });
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("/rooms").document(b.get("roomId").toString());
