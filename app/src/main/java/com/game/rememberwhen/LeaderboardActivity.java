@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,20 +41,27 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("/rooms").document(b.get("roomId").toString());
-        DocumentSnapshot docSnap = docRef.get().getResult();
-        players = ((ArrayList<Player>)docSnap.get("users"));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot docSnap = task.getResult();
+                    players = ((ArrayList<Player>) docSnap.toObject(PlayerDocument.class).users);
+                }
+            }
+        });
 
         Collections.sort(players, Collections.reverseOrder());
         showList();
 
-        Intent intent = new Intent(this, TurnSwitching.class);
+        /*Intent intent = new Intent(this, TurnSwitching.class);
         View.OnClickListener nextRoundActivity = new View.OnClickListener() {
             public void onClick(View view) {
                 startActivity(intent);
             }
         };
 
-        nextBtn.setOnClickListener(nextRoundActivity);
+        nextBtn.setOnClickListener(nextRoundActivity);*/
     }
 
     private void showList() {
