@@ -73,6 +73,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
+                intentLeaderboard.putExtras(b);
                 startActivity(intentLeaderboard);
             }
         });
@@ -86,6 +87,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
+                intentLeaderboard.putExtras(b);
                 startActivity(intentLeaderboard);
             }
         });
@@ -105,6 +107,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
+                intentLeaderboard.putExtras(b);
                 startActivity(intentLeaderboard);
             }
         };

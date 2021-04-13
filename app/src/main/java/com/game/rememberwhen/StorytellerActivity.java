@@ -98,6 +98,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(StorytellerActivity.this, LeaderboardActivity.class);
+                        intent.putExtras(b);
                         startActivity(intent);
                     }
                 });

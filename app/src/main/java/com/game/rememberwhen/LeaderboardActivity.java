@@ -13,31 +13,35 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
 public class LeaderboardActivity extends AppCompatActivity {
-    private List<Player> list=new ArrayList<>();
-    private TextView mytxt=findViewById(R.id.mytext);
+    private ArrayList<Player> players;
+    private TextView mytxt;
     private Button nextBtn;
 
-    public LeaderboardActivity(){}
-
-    public LeaderboardActivity(List<Player> playerList)
-    {
-        this.list = playerList;
-        showList();
-        //TODO this should be a recyclerView like in ManageNewRoomActivity
-    }
-
+    Bundle b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboard);
+        b = getIntent().getExtras();
         nextBtn = (Button) findViewById(R.id.nextRoundbutton);
-        Collections.sort(list,Collections.reverseOrder());
+        mytxt=findViewById(R.id.mytext);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("/rooms").document(b.get("roomId").toString());
+        DocumentSnapshot docSnap = docRef.get().getResult();
+        players = ((ArrayList<Player>)docSnap.get("users"));
+
+        Collections.sort(players, Collections.reverseOrder());
         showList();
 
         Intent intent = new Intent(this, TurnSwitching.class);
@@ -51,7 +55,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private void showList() {
-        for (Player p: list)
+        for (Player p: players)
         {
             mytxt.append(p.toString()+ "\n\n");
 
