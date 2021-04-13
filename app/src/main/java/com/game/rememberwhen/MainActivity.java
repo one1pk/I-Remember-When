@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         if (tokenHolder == null) {
             tokenHolder = "--Null--";
         }
-        player = new Player(userName, 0, 0, Constants.KEY_PLAYER_TYPE_TELLER, tokenHolder); // HOST AS Story TELLER// Initial Score 0
+        player = new Player(userName, 0, 0, 0, Constants.KEY_PLAYER_TYPE_TELLER, tokenHolder); // HOST AS Story TELLER// Initial Score 0
 
         final Room room = new Room();
         player.setRoomId(room.getRoomId());

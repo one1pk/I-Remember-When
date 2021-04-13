@@ -41,6 +41,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
     private DocumentReference docRef;
     private Player player;
     private String roomID;
+    private int numPlayers;
     private ArrayList<Player> getSelectedUsers = new ArrayList<>();
 
     static String prompt;
@@ -71,6 +72,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         Bundle b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
         roomID = String.valueOf(player.getRoomId());
+        numPlayers = (Integer)(b.get("numPlayers"));
         getSelectedUsers.addAll((ArrayList<Player>) b.getSerializable("selectedUsersLIST"));
         System.out.println(getSelectedUsers.toString());
 
@@ -87,6 +89,7 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
         db = FirebaseFirestore.getInstance();
         docRef = db.collection("/rooms").document(b.get("roomId").toString());
 
+        loadUI();
         loadDataset();
 
 
@@ -124,9 +127,8 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 StorytellerActivity.this.onMultipleUsersAction(true);
                 startTimer(); // begin timer on display
                 // change score status
-                // new Score("truth");
                 player.setResponse("truth");
-                docRef.update("response", "truth");
+                docRef.update("answer", "truth");
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 promptTextView2.setText(prompt);
@@ -140,9 +142,8 @@ public class StorytellerActivity extends AppCompatActivity implements PlayerList
                 buttonMoreTime.setVisibility(View.INVISIBLE);
                 startTimer(); // begin timer on display
                 // change score status
-                // new Score("makeItUp");
                 player.setResponse("MakeItUp");
-                docRef.update("response", "MakeItUp");
+                docRef.update("answer", "MakeItUp");
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 promptTextView2.setText(prompt);

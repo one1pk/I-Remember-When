@@ -70,6 +70,7 @@ public class JoinRoomActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(JoinRoomActivity.this, "Room ID Valid for Room: " + userEnteredID, Toast.LENGTH_LONG).show();
                             player.setRoomId(Integer.parseInt(userEnteredID));
+                            player.setIndex(arrayList.size());
                             arrayList.add(player);
                             roomData.clear();
                             roomData.put("users", arrayList);

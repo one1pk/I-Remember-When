@@ -114,6 +114,9 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 //            b.putString("player", new Gson().toJson(player, Player.class));
             b.putSerializable("player", player);
 //            b.putSerializable("selectedUsers", new Gson().toJson(playerList));
+            b.putString("roomId", String.valueOf(this.b.get("roomId")));
+            b.putInt("numPlayers", playerList.size());
+            b.putSerializable("allPlayers", (Serializable)playerList);
             ArrayList<Player> exportWithoutHost = new ArrayList<>(playerList);
             System.out.println("exportWithoutHost.size() "+exportWithoutHost.size());
             System.out.println("Player Token: "+player.getToken());
@@ -128,6 +131,8 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         }
         else {
             b.putSerializable("player", player);
+            b.putInt("numPlayers", playerList.size());
+            b.putSerializable("allPlayers", (Serializable)playerList);
             intentRest.putExtras(b);
             startActivity(intentRest);
         }

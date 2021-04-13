@@ -12,6 +12,7 @@ import android.widget.ViewFlipper;
 
 import com.game.rememberwhen.utilities.FireStoreWorker;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ListenerActivity<prompt> extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
 
     private Player player;
     private String roomID;
+    private int numPlayers;
 
     private TextView timer;
     private Button voteTrue;
@@ -41,6 +43,8 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
         roomID = String.valueOf(player.getRoomId());
+        numPlayers = (Integer)(b.get("numPlayers"));
+
         setContentView(R.layout.listener_flipper);
 
         flipper = (ViewFlipper) findViewById(R.id.listenerFlipper);
@@ -89,7 +93,9 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 cTimer.cancel();
                 // new Score("truth",0);
                 player.setResponse("truth");
-                docRef.update("response", "truth");
+                docRef.update("users", FieldValue.arrayRemove(player.getIndex()));
+                player.setIndex(numPlayers-1);
+                docRef.update("users", FieldValue.arrayUnion(player));
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
@@ -104,7 +110,9 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 cTimer.cancel();
                 // new Score("makeItUp",0);
                 player.setResponse("MakeItUp");
-                docRef.update("response", "MakeItUp");
+                docRef.update("users", FieldValue.arrayRemove(player.getIndex()));
+                player.setIndex(numPlayers-1);
+                docRef.update("users", FieldValue.arrayUnion(player));
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);
@@ -125,7 +133,9 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             // end storytelling phase once timer runs out
             public void onFinish() {
                 player.setResponse("");
-                docRef.update("response", "");
+                docRef.update("users", FieldValue.arrayRemove(player.getIndex()));
+                player.setIndex(numPlayers-1);
+                docRef.update("users", FieldValue.arrayUnion(player));
                 Score.updateScore(b.get("roomId").toString(), player);
 
                 Intent intentLeaderboard = new Intent(ListenerActivity.this, LeaderboardActivity.class);

@@ -5,6 +5,7 @@ import java.io.Serializable;
 // POJO / Model Class for Player Entity
 public class Player implements Serializable, Comparable<Player> {
     private String name;
+    private int index;
     private int roomId;
     private int score;
     private int scoreDif;
@@ -25,6 +26,15 @@ public class Player implements Serializable, Comparable<Player> {
         this.token = deviceToken;
     }
 
+    public Player(String name, int index, int score, int scoreDif, String status, String deviceToken) {
+        this.name = name;
+        this.index = index;
+        this.score = score;
+        this.scoreDif = scoreDif;
+        this.status = status;
+        this.token = deviceToken;
+    }
+
     public boolean equals(Player p1) {
         return (name.equals(p1.getName())) && (roomId == p1.getRoomId()) && (score == p1.getScore());
     }
@@ -37,6 +47,10 @@ public class Player implements Serializable, Comparable<Player> {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getIndex() { return index; }
+
+    public void setIndex(int index) { this.index = index; }
 
     public int getRoomId() {
         return roomId;
@@ -85,9 +99,9 @@ public class Player implements Serializable, Comparable<Player> {
     @Override
     public String toString() {
         if (scoreDif > 0)
-            return "name: " + name + " Score:" + score + " get: " + scoreDif;
+            return "Name: " + name + " \tScore:" + score + " \tGained: " + scoreDif;
         else
-            return "name: " + name + " Score:" + score + " los: " + -1 * scoreDif;
+            return "Name: " + name + " \tScore:" + score + " \tLost: " + -1 * scoreDif;
 
     }
 

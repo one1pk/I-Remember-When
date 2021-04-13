@@ -13,12 +13,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.reflect.Array.getLength;
 
@@ -49,37 +51,41 @@ public class Score {
                         int numPlayers = players.size();
                         for (int i = 0; i < numPlayers; i++) {
                             if (players.get(i).getStatus().equals("storyteller")) {
-                                answer = players.get(i).getResponse();
+                                answer = docSnap.get("answer").toString();
+                                // answer = players.get(i).getResponse();
                             }
                         }
                         for (int i = 0; i < numPlayers; i++) {
                             if (players.get(i).equals(player1)) {
                                 player = players.get(i);
                                 if (player.getStatus().equals("storyteller")) {
+                                    // delay storyteller points update so that other players may process first
+                                    try {
+                                        TimeUnit.SECONDS.sleep(5);
+                                    } catch (InterruptedException ie) {
+                                        Thread.currentThread().interrupt();
+                                    }
                                     // check responses of each player to calc score of storyteller
                                     for (int j = 0; j < numPlayers - 1; j++) {
                                         // modular addition makes sure to check all players before and after storyteller
                                         response = players.get((j + i)%numPlayers).getResponse();
+                                        if (response == null){break;}
                                         if (answer.equals("truth")) {
                                             switch (response) {
                                                 case "truth":
-
-                                                    docRef.update(
-                                                            "score", player.getScore() + 10
-                                                    );
-                                                    docRef.update(
-                                                            "score dif", 10
-                                                    );
+                                                    docRef.update("users", FieldValue.arrayRemove((j + i)%numPlayers));
+                                                    player.setScore(player.getScore() + 10);
+                                                    player.setScoreDif(10);
+                                                    player.setIndex(numPlayers-1);
+                                                    docRef.update("users", FieldValue.arrayUnion(player));
                                                     break;
 
                                                 case "MakeItUp":
-                                                    docRef.update(
-                                                            "score", player.getScore() - 10
-                                                    );
-                                                    docRef.update(
-                                                            "score dif", -10
-                                                    );
-
+                                                    docRef.update("users", FieldValue.arrayRemove((j + i)%numPlayers));
+                                                    player.setScore(player.getScore() - 10);
+                                                    player.setScoreDif(-10);
+                                                    player.setIndex(numPlayers-1);
+                                                    docRef.update("users", FieldValue.arrayUnion(player));
                                                     break;
 
 
@@ -87,21 +93,19 @@ public class Score {
                                         } else {
                                             switch (response) {
                                                 case "truth":
-                                                    docRef.update(
-                                                            "score", player.getScore() + 20
-                                                    );
-                                                    docRef.update(
-                                                            "score dif", 20
-                                                    );
+                                                    docRef.update("users", FieldValue.arrayRemove((j + i)%numPlayers));
+                                                    player.setScore(player.getScore() + 20);
+                                                    player.setScoreDif(20);
+                                                    player.setIndex(numPlayers-1);
+                                                    docRef.update("users", FieldValue.arrayUnion(player));
                                                     break;
 
                                                 case "MakeItUp":
-                                                    docRef.update(
-                                                            "score", player.getScore() - 20
-                                                    );
-                                                    docRef.update(
-                                                            "score dif", -20
-                                                    );
+                                                    docRef.update("users", FieldValue.arrayRemove((j + i)%numPlayers));
+                                                    player.setScore(player.getScore() - 20);
+                                                    player.setScoreDif(-20);
+                                                    player.setIndex(numPlayers-1);
+                                                    docRef.update("users", FieldValue.arrayUnion(player));
                                                     break;
 
                                             }
@@ -112,52 +116,47 @@ public class Score {
                                     response = player.getResponse();
                                     if (response == null) {}
                                     else if (response.equals("")) {
-                                        docRef.update(
-                                                "score", player.getScore() - 10
-                                        );
-                                        docRef.update(
-                                                "score dif", -10
-                                        );
+                                        docRef.update("users", FieldValue.arrayRemove(i));
+                                        player.setScore(player.getScore() - 10);
+                                        player.setScoreDif(-10);
+                                        player.setIndex(numPlayers-1);
+                                        docRef.update("users", FieldValue.arrayUnion(player));
 
                                     } else if (answer.equals("truth")) {
                                         switch (response) {
                                             case "truth":
-                                                docRef.update(
-                                                        "score", player.getScore() + 10
-                                                );
-                                                docRef.update(
-                                                        "score dif", +10
-                                                );
+                                                docRef.update("users", FieldValue.arrayRemove(i));
+                                                player.setScore(player.getScore() + 10);
+                                                player.setScoreDif(10);
+                                                player.setIndex(numPlayers-1);
+                                                docRef.update("users", FieldValue.arrayUnion(player));
                                                 break;
 
                                             case "MakeItUp":
-                                                docRef.update(
-                                                        "score", player.getScore() - 10
-                                                );
-                                                docRef.update(
-                                                        "score dif", -10
-                                                );
+                                                docRef.update("users", FieldValue.arrayRemove(i));
+                                                player.setScore(player.getScore() - 10);
+                                                player.setScoreDif(-10);
+                                                player.setIndex(numPlayers-1);
+                                                docRef.update("users", FieldValue.arrayUnion(player));
                                                 break;
 
                                         }
                                     } else {
                                         switch (response) {
                                             case "truth":
-                                                docRef.update(
-                                                        "score", player.getScore() - 5
-                                                );
-                                                docRef.update(
-                                                        "score dif", -5
-                                                );
+                                                docRef.update("users", FieldValue.arrayRemove(i));
+                                                player.setScore(player.getScore() - 5);
+                                                player.setScoreDif(-5);
+                                                player.setIndex(numPlayers-1);
+                                                docRef.update("users", FieldValue.arrayUnion(player));
                                                 break;
 
                                             case "MakeItUp":
-                                                docRef.update(
-                                                        "score", player.getScore() + 10
-                                                );
-                                                docRef.update(
-                                                        "score dif", +10
-                                                );
+                                                docRef.update("users", FieldValue.arrayRemove(i));
+                                                player.setScore(player.getScore() + 10);
+                                                player.setScoreDif(10);
+                                                player.setIndex(numPlayers-1);
+                                                docRef.update("users", FieldValue.arrayUnion(player));
                                                 break;
                                         }
                                     }
