@@ -53,4 +53,9 @@ Each round a player will receive points based on their role:
 - -10 points for falsely accuse a player of lying
 - -10 points for failing to answer within the deliberation period
 
+# References
+Jitsi SDK implementation was done using resources from the samples that Jitsi provides in the following link:
+https://github.com/jitsi/jitsi-meet-sdk-samples
 
+Firebase features were implemented by following the Firebase documentation
+https://firebase.google.com/docs
