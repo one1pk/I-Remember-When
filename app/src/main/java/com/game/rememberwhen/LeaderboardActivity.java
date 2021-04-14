@@ -1,15 +1,11 @@
+/*Leaderboard activity that displays the players scores at the end of each round*/
 package com.game.rememberwhen;
 
-import android.os.Bundle;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,20 +18,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 
 public class LeaderboardActivity extends AppCompatActivity {
+    Bundle b;
     private ArrayList<Player> players;
     private ArrayList<Player> players2;
     private Player player;
     private String roomID;
-
     private TextView mytxt;
     private Button nextBtn;
     private Button quitBtn;
-
-    Bundle b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +36,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         setContentView(R.layout.leaderboard);
         b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
-        players2 = (ArrayList<Player>)b.getSerializable("allPlayers");
+        players2 = (ArrayList<Player>) b.getSerializable("allPlayers");
         roomID = String.valueOf(player.getRoomId());
 
         nextBtn = (Button) findViewById(R.id.nextRoundbutton);
@@ -82,8 +75,7 @@ public class LeaderboardActivity extends AppCompatActivity {
                 if (player.getStatus().equals("storyteller")) {
                     intentHost.putExtras(b);
                     startActivity(intentHost);
-                }
-                else {
+                } else {
                     intentRest.putExtras(b);
                     startActivity(intentRest);
                 }
@@ -94,14 +86,11 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private void showList() {
-        for (Player p: players)
-        {
-            mytxt.append(p.toString()+ "\n\n");
+        for (Player p : players) {
+            mytxt.append(p.toString() + "\n\n");
         }
-        for (Player p: players2)
-        {
-            mytxt.append(p.toString()+ "\n\n");
+        for (Player p : players2) {
+            mytxt.append(p.toString() + "\n\n");
         }
     }
-
 }

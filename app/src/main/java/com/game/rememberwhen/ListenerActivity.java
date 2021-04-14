@@ -1,6 +1,6 @@
+/*Activity used for handling the listeners during each round*/
 package com.game.rememberwhen;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.rememberwhen.utilities.FireStoreWorker;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,21 +21,16 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private DocumentReference docRef;
-
-
     private Bundle b;
     private ViewFlipper flipper;
-
     private Player player;
     private String roomID;
     private int numPlayers;
-
     private TextView timer;
     private Button voteTrue;
     private Button voteFalse;
     private Button voteNow;
     private Button quitBtn;
-
     private CountDownTimer cTimer = null;
     private int timeLeft;
 
@@ -43,7 +40,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         b = getIntent().getExtras();
         player = (Player) b.getSerializable("player");
         roomID = String.valueOf(player.getRoomId());
-        numPlayers = (Integer)(b.get("numPlayers"));
+        numPlayers = (Integer) (b.get("numPlayers"));
 
         setContentView(R.layout.listener_flipper);
 
@@ -91,10 +88,9 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cTimer.cancel();
-                // new Score("truth",0);
                 player.setResponse("truth");
                 docRef.update("users", FieldValue.arrayRemove(player.getIndex()));
-                player.setIndex(numPlayers-1);
+                player.setIndex(numPlayers - 1);
                 docRef.update("users", FieldValue.arrayUnion(player));
                 Score.updateScore(b.get("roomId").toString(), player);
 
@@ -111,7 +107,7 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
                 // new Score("makeItUp",0);
                 player.setResponse("MakeItUp");
                 docRef.update("users", FieldValue.arrayRemove(player.getIndex()));
-                player.setIndex(numPlayers-1);
+                player.setIndex(numPlayers - 1);
                 docRef.update("users", FieldValue.arrayUnion(player));
                 Score.updateScore(b.get("roomId").toString(), player);
 
@@ -124,17 +120,18 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
 
     private void startTimer() {
         timeLeft = 120;
-        cTimer = new CountDownTimer(timeLeft*1000, 1000) {
+        cTimer = new CountDownTimer(timeLeft * 1000, 1000) {
             // update timer every second
             public void onTick(long millisUntilFinished) {
-                timeLeft = (int)(millisUntilFinished / 1000);
+                timeLeft = (int) (millisUntilFinished / 1000);
                 timer.setText(String.valueOf(timeLeft));
             }
+
             // end storytelling phase once timer runs out
             public void onFinish() {
                 player.setResponse("");
                 docRef.update("users", FieldValue.arrayRemove(player.getIndex()));
-                player.setIndex(numPlayers-1);
+                player.setIndex(numPlayers - 1);
                 docRef.update("users", FieldValue.arrayUnion(player));
                 Score.updateScore(b.get("roomId").toString(), player);
 
@@ -150,5 +147,4 @@ public class ListenerActivity<prompt> extends AppCompatActivity {
         Intent intent = new Intent(this, RulesActivity.class);
         startActivity(intent);
     }
-
 }

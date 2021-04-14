@@ -1,3 +1,4 @@
+/* Part of Jitsi SDK */
 package com.game.rememberwhen.network;
 
 import java.util.HashMap;

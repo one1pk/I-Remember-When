@@ -1,3 +1,4 @@
+/* Handles the incoming video call from the host to the players that joined the game*/
 package com.game.rememberwhen;
 
 import android.content.BroadcastReceiver;
@@ -14,12 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.game.rememberwhen.network.ApiClient;
 import com.game.rememberwhen.network.ApiService;
 import com.game.rememberwhen.utilities.Constants;
 import com.game.rememberwhen.utilities.PreferenceManager;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
@@ -36,16 +37,60 @@ import retrofit2.Response;
 
 public class OutgoingInvitationActivity extends AppCompatActivity {
 
+    Player user;
     private PreferenceManager preferenceManager;
     private String inviterToken = null;
     private String meetingRoom = null;
     private String meetingType = null;
     private TextView textFirstChar;
     private TextView textUsername;
-    private TextView textEmail;
-    Player user;
     private int rejectionCount = 0;
     private int totalReceivers = 0;
+    private final BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String TAG = "invitationResponseReceiver ";
+            String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
+            Toast.makeText(context, "TYPE IS : " + type, Toast.LENGTH_SHORT).show();
+            System.out.println(TAG + "TYPE IS " + type);
+            if (type != null) {
+                if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
+                    System.out.println(TAG + "ACCEPTED");
+                    Toast.makeText(context, Constants.REMOTE_MSG_INVITATION_ACCEPTED, Toast.LENGTH_SHORT).show();
+                    try {
+                        URL serverURL = new URL("https://meet.jit.si");
+
+                        JitsiMeetConferenceOptions.Builder builder = new JitsiMeetConferenceOptions.Builder();
+                        builder.setServerURL(serverURL);
+                        builder.setWelcomePageEnabled(false);
+                        builder.setRoom(meetingRoom);
+                        if (meetingType.equals("audio")) {
+                            builder.setVideoMuted(true);
+                        }
+                        System.out.println("invitationResponseReceiver");
+                        JitsiMeetActivity.launch(OutgoingInvitationActivity.this, builder.build());
+
+                        finish();
+                    } catch (Exception exception) {
+                        System.out.println(exception);
+                        exception.printStackTrace();
+                        Toast.makeText(context, exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
+                    System.out.println(TAG + "REJECTED");
+                    rejectionCount += 1;
+                    if (rejectionCount == totalReceivers) {
+                        Toast.makeText(context, "invitation Rejected", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+            } else {
+                Toast.makeText(context, "TYPE IS NULL", Toast.LENGTH_SHORT).show();
+                System.out.println(TAG + "TYPE IS NULL");
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +150,6 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             }
         });
 
-//        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-//            if (task.isSuccessful() && task.getResult() != null) {
-//                inviterToken = task.getResult().getToken();
-
         if (meetingType != null) {
             if (getIntent().getBooleanExtra("isMultiple", false)) {
                 Type type = new TypeToken<ArrayList<Player>>() {
@@ -123,13 +164,10 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             } else {
                 if (user != null) {
                     totalReceivers = 1;
-//                            initiateMeeting(meetingType, user.token, null);
                     initiateMeeting(meetingType, user.token, null);
                 }
             }
         }
-//            }
-//        });
     }
 
     private void initiateMeeting(String meetingType, String receiverToken, ArrayList<Player> receivers) {
@@ -147,7 +185,6 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
                     userNames.append(receivers.get(i).getName()).append("\n");
                 }
                 textFirstChar.setVisibility(View.GONE);
-//                textEmail.setVisibility(View.GONE);
                 textUsername.setText(userNames.toString());
             }
 
@@ -159,11 +196,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             data.put(Constants.KEY_FIRST_NAME, preferenceManager.getString(Constants.KEY_FIRST_NAME));
             data.put(Constants.KEY_LAST_NAME, preferenceManager.getString(Constants.KEY_LAST_NAME));
             data.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
-
             data.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken);
-
-//            meetingRoom = preferenceManager
-//                    .getString(Constants.KEY_USER_ID) + "_" + UUID.randomUUID().toString().substring(0, 5);
             data.put(Constants.REMOTE_MSG_MEETING_ROOM, user.getRoomId());
 
             body.put(Constants.REMOTE_MSG_DATA, data);
@@ -243,58 +276,9 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         }
     }
 
-    private final BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String TAG = "invitationResponseReceiver ";
-            String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
-            Toast.makeText(context, "TYPE IS : " + type, Toast.LENGTH_SHORT).show();
-            System.out.println(TAG + "TYPE IS " + type);
-            if (type != null) {
-                if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
-                    System.out.println(TAG + "ACCEPTED");
-                    Toast.makeText(context, Constants.REMOTE_MSG_INVITATION_ACCEPTED, Toast.LENGTH_SHORT).show();
-                    try {
-                        URL serverURL = new URL("https://meet.jit.si");
-
-                        JitsiMeetConferenceOptions.Builder builder = new JitsiMeetConferenceOptions.Builder();
-                        builder.setServerURL(serverURL);
-                        builder.setWelcomePageEnabled(false);
-                        builder.setRoom(meetingRoom);
-                        if (meetingType.equals("audio")) {
-                            builder.setVideoMuted(true);
-                        }
-                        System.out.println("invitationResponseReceiver");
-                        JitsiMeetActivity.launch(OutgoingInvitationActivity.this, builder.build());
-
-                        finish();
-                    } catch (Exception exception) {
-                        System.out.println(exception);
-                        exception.printStackTrace();
-                        Toast.makeText(context, exception.getMessage(), Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                } else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
-                    System.out.println(TAG + "REJECTED");
-                    rejectionCount += 1;
-                    if (rejectionCount == totalReceivers) {
-                        Toast.makeText(context, "invitation Rejected", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                }
-            } else {
-                Toast.makeText(context, "TYPE IS NULLL", Toast.LENGTH_SHORT).show();
-                System.out.println(TAG + "TYPE IS NULL");
-            }
-        }
-    };
-
     @Override
     protected void onStart() {
         super.onStart();
-//        LocalBroadcastManager.getInstance(getApplicationContext())
-//                .registerReceiver(invitationResponseReceiver,
-//                        new IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE));
     }
 
     @Override

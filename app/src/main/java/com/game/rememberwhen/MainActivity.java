@@ -1,3 +1,4 @@
+/* Main Entry point / Activity for Application */
 package com.game.rememberwhen;
 
 import android.content.Intent;
@@ -23,7 +24,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Main Entry point / Activity for Application
 public class MainActivity extends AppCompatActivity {
     Player player;
     String tokenHolder;
@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Join Room Button Click
     public void joinRoom(View view) {
-//        Toast.makeText(getApplicationContext(),"No Rooms to Join (TODO)", Toast.LENGTH_SHORT).show();
         EditText usernameText = findViewById(R.id.editTextTextPersonName);
         String userName = usernameText.getText().toString();
         if (b == null) {
@@ -107,5 +106,4 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtras(b);
         startActivity(intent); // Passing Username to JoinRoomActivity.class
     }
-
 }
