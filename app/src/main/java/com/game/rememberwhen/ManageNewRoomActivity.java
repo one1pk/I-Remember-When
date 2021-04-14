@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.game.rememberwhen.R;
 import com.game.rememberwhen.utilities.Constants;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,17 +29,15 @@ import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class ManageNewRoomActivity extends AppCompatActivity {
+    private final List playerList = new ArrayList<Player>();
     private Player player;
     private Room room;
-    private List playerList = new ArrayList<Player>();
     private TextView playersListText;
     private RecyclerView players_list_view; // Player details view dynamic creation using simple player_list_item.xml
-
     private Bundle b;
 
     @Override
@@ -56,9 +52,9 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         final PlayersAdapter adapter = new PlayersAdapter(playerList);
         players_list_view.setAdapter(adapter);
         room = new Room(Integer.parseInt(b.get("roomId").toString()), false);
-        if(b.getSerializable("playerThis") != null){
-            player = new Gson().fromJson( b.getSerializable("playerThis").toString(), Player.class);
-        }else if (b.get("player") != null) {
+        if (b.getSerializable("playerThis") != null) {
+            player = new Gson().fromJson(b.getSerializable("playerThis").toString(), Player.class);
+        } else if (b.get("player") != null) {
             // For host
             player = new Gson().fromJson(b.get("player").toString(), Player.class);
         }
@@ -72,10 +68,8 @@ public class ManageNewRoomActivity extends AppCompatActivity {
                     Toast.makeText(ManageNewRoomActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 if (value.exists()) {
-                    //  final HashMap<String, Object> roomData = (HashMap<String, Object>) value.getData();
-                    // System.out.println("+++Value " + roomData.values());
                     ArrayList<Player> playerArrayList = (ArrayList<Player>) value.toObject(PlayerDocument.class).users;
-                    // Converts the Firestore data into arrayList
+                    // Converts the FireStore data into arrayList
                     playerList.clear();
                     playerList.addAll(playerArrayList);
                     adapter.notifyDataSetChanged(); // By Default adapters work on assigned dataset so when we query firebase it takes some time so we have to tell adapter to update and display new data
@@ -83,7 +77,7 @@ public class ManageNewRoomActivity extends AppCompatActivity {
                     if (playerList.size() == 6) {
                         playersListText.setText("Players are ready: ");
                     } else {
-                        playersListText.setText("Players are Being Added: "); // TODO Make it smaller ?
+                        playersListText.setText("Players are Being Added: ");
                     }
                 }
             }
@@ -100,39 +94,32 @@ public class ManageNewRoomActivity extends AppCompatActivity {
         }
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void readyUp(View view) {
         final Intent intentHost = new Intent(this, StorytellerActivity.class);
-//        intentHost.putExtras(b);
         final Intent intentRest = new Intent(this, ListenerActivity.class);
-//        intentRest.putExtras(b);
-        System.out.println("PLAYER STATUS IS : "+player.getStatus());
+        System.out.println("PLAYER STATUS IS : " + player.getStatus());
         if (player.getStatus().equalsIgnoreCase(Constants.KEY_PLAYER_TYPE_TELLER)) {
-            // TODO Adding host, All players,
             Bundle b = new Bundle();
-//            b.putString("player", new Gson().toJson(player, Player.class));
             b.putSerializable("player", player);
-//            b.putSerializable("selectedUsers", new Gson().toJson(playerList));
             b.putString("roomId", String.valueOf(this.b.get("roomId")));
             b.putInt("numPlayers", playerList.size());
-            b.putSerializable("allPlayers", (Serializable)playerList);
+            b.putSerializable("allPlayers", (Serializable) playerList);
             ArrayList<Player> exportWithoutHost = new ArrayList<>(playerList);
-            System.out.println("exportWithoutHost.size() "+exportWithoutHost.size());
-            System.out.println("Player Token: "+player.getToken());
+            System.out.println("exportWithoutHost.size() " + exportWithoutHost.size());
+            System.out.println("Player Token: " + player.getToken());
             Predicate<Player> isQualified = item -> (item.getToken().equals(player.getToken())); // Predicate to filter host player from list
-            exportWithoutHost.stream().filter(isQualified).forEach(p->System.out.println(p.getName()+" : "+p.token));
+            exportWithoutHost.stream().filter(isQualified).forEach(p -> System.out.println(p.getName() + " : " + p.token));
             exportWithoutHost.removeIf(isQualified); // removing Host from List // otherwise will send invite to self as well.
             exportWithoutHost.remove(player);
-            System.out.println("exportWithoutHost.size() "+exportWithoutHost.size());
-            b.putSerializable("selectedUsersLIST",(Serializable) exportWithoutHost);
+            System.out.println("exportWithoutHost.size() " + exportWithoutHost.size());
+            b.putSerializable("selectedUsersLIST", (Serializable) exportWithoutHost);
             intentHost.putExtras(b);
             startActivity(intentHost);
-        }
-        else {
+        } else {
             b.putSerializable("player", player);
             b.putInt("numPlayers", playerList.size());
-            b.putSerializable("allPlayers", (Serializable)playerList);
+            b.putSerializable("allPlayers", (Serializable) playerList);
             intentRest.putExtras(b);
             startActivity(intentRest);
         }
@@ -172,19 +159,14 @@ public class ManageNewRoomActivity extends AppCompatActivity {
 
     class PlayersViewHolder extends RecyclerView.ViewHolder {
         private final TextView playerName;
-//        private final TextView playerScore;
-//        private ImageView playerAvatar;
 
         public PlayersViewHolder(ViewGroup container) {
             super(LayoutInflater.from(ManageNewRoomActivity.this).inflate(R.layout.player_list_item, container, false));
             playerName = (TextView) itemView.findViewById(R.id.playerNameText);
-//            playerScore = (TextView) itemView.findViewById(R.id.PlayerScoreText);
-//            playerAvatar =(ImageView)itemView.findViewById(R.id.playerImageView);
         }
 
         public void bind(Player playerBinder) {
             playerName.setText(playerBinder.getName());
-            // playerScore.setText("Score: " + playerBinder.getScore());
         }
     }
 }

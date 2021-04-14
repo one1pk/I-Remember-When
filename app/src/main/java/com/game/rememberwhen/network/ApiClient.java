@@ -1,3 +1,4 @@
+/* Part of Jitsi SDK */
 package com.game.rememberwhen.network;
 
 import retrofit2.Retrofit;
@@ -10,7 +11,6 @@ public class ApiClient {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://fcm.googleapis.com/fcm/")
-//                    .baseUrl("https://fcm.googleapis.com/v1/projects/i-remember-when-d48a0/")
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .build();
         }

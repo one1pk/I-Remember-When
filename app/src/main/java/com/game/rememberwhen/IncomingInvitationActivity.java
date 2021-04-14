@@ -1,3 +1,4 @@
+/* Initiates a video call from the host to the other players*/
 package com.game.rememberwhen;
 
 import android.content.BroadcastReceiver;
@@ -13,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.game.rememberwhen.R;
 import com.game.rememberwhen.network.ApiClient;
 import com.game.rememberwhen.network.ApiService;
 import com.game.rememberwhen.utilities.Constants;
@@ -31,8 +31,19 @@ import retrofit2.Response;
 
 public class IncomingInvitationActivity extends AppCompatActivity {
 
+    private final BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
+            if (type != null) {
+                if (type.equals(Constants.REMOTE_MSG_INVITATION_CANCELLED)) {
+                    Toast.makeText(context, "invitation Accepted", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        }
+    };
     private String meetingType = null;
-    private String meetingRoomID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,19 +157,6 @@ public class IncomingInvitationActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private final BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
-            if (type != null) {
-                if (type.equals(Constants.REMOTE_MSG_INVITATION_CANCELLED)) {
-                    Toast.makeText(context, "invitation Accepted", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-        }
-    };
 
     @Override
     protected void onStart() {

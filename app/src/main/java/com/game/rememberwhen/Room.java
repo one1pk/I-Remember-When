@@ -1,11 +1,10 @@
+/* Generates a new 4-digit room ID for the host */
 package com.game.rememberwhen;
 
 import java.security.SecureRandom;
 
-// POJO(Plain Old Java Object) / Model Class for Room Entity
 public class Room {
     private final int roomId; // Final Because want to keep it immutable
-    private int hostPlayerId; // TBD
 
     // Public constructor generating random pin for roomId
     public Room() {
@@ -19,21 +18,13 @@ public class Room {
         if (!isNew) {
             this.roomId = roomId;
         } else {
-            //TODO: increment vs generate new pin
             roomId = roomId >= 9999 ? 1000 : roomId + 1;
             this.roomId = roomId;
         }
-
     }
 
     // Getter Method for RoomId
     public int getRoomId() {
         return this.roomId;
     }
-
-    /* TODO further implementation of room class
-    @Override
-    public boolean equals(Object other) {
-        return other instanceof Room && this.roomId == ((Room) other).getRoomId();
-    }*/
 }

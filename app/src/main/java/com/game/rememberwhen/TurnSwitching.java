@@ -1,20 +1,9 @@
+/* Switches players roles when turn is done */
 package com.game.rememberwhen;
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class TurnSwitching {
 
@@ -37,13 +26,3 @@ public class TurnSwitching {
         }
     }
 }
-
-/*        count+=1;
-        if(count==maxRound)
-        {
-            //playersListText.setText("max round reaches");
-            // new LeaderBoard(playerList);
-            new WinnerActivity(playerList);
-        }*/
-
-

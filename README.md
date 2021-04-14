@@ -1,17 +1,17 @@
 # I Remember When...
 
-_I Remember When…_ is a social, “get-to-know-you”, conversation-based Android game that allows participants to share funny stories based on prompts. The game will be useful as a social game for seniors both in concept and in its design.
+_I Remember When…_ is a social, “get-to-know-you”, conversation-based Android game that allows participants to share funny stories based on prompts. The game is useful as a social game for seniors both in concept and in its design.
 
 ## Intended Audience
 
-While _I Remember When…_ is designed to be playable by anybody with some level of computer skill, the game is designed primarily with seniors in mind. Aspects such as its simple to understand GUI, minimal use of keyboard, and focus on utilization of a microphone make the app accessible to those who typically do not enjoy mobile games. The game focuses on personal narrative and communication, and removes the need for dexterity, quick reaction time, and sharp vision. By excluding these typical mobile game factors, _I Remember When…_ creates a level playing field for multiple generations to play together and connect.
+While _I Remember When…_ is designed to be playable by anybody with some level of computer skill, the game is designed primarily with seniors in mind. Aspects such as its simple to understand GUI, minimal use of keyboard, and focus on utilization of a microphone and camera make the app accessible to those who typically do not enjoy mobile games. The game focuses on personal narrative and communication, and removes the need for dexterity, quick reaction time, and sharp vision. By excluding these typical mobile game factors, _I Remember When…_ creates a level playing field for multiple generations to play together and connect.
 
 # Guidelines
 
-- Development will be done in Android Studio Version 4.x.x
-- All code will be implemented using Java and XML following the Cornell University Dept. of CS JavaHyperText and Data Structures Java Code Style Guidelines
-- Cloud Firestore will be used as the online real-time database
-- Jitsi WebRTC will be used for voice communication between players
+- Development has been done in Android Studio Version 4.x.x
+- All code was implemented using Java and XML following the Cornell University Dept. of CS JavaHyperText and Data Structures Java Code Style Guidelines
+- Cloud FireStore is used as the online real-time database
+- Jitsi WebRTC is used for voice communication between players
 
 # Game Description
 
@@ -19,14 +19,14 @@ While _I Remember When…_ is designed to be playable by anybody with some level
 Game sessions are created through the following procedure:
 - One player, the host, opens the game application and types in the name they want to be referred by during the game session
 - Select the ‘Create Room’ button 
-- This takes them to a screen that shows a unique 4 digit room code, which they share with the other players (up to 5 other players)
+- This takes them to a screen that shows a unique 4-digit room code, which they share with the other players (up to 6 other players)
 - Once all expected players have joined in to the game, the host selects the ‘Ready’ button
 
 ## Joining Procedure
 The other players join the session through the following procedure: 
 - They use their personal device to open the app and type in the name they want to be referred by during the game session
 - Select the ‘Join Room’ button
-- This takes them to a screen which accepts the 4 digit code that the host has shared with them
+- This takes them to a screen which accepts the 4-digit code that the host has shared with them
 - This puts them into a waiting room with the host, where they will be able to converse through the audio I/O of their device until the host has selected the ‘Ready’ button
 
 ## Gameplay Procedure 

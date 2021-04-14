@@ -1,16 +1,16 @@
+/* POJO / Model Class for Player Entity */
 package com.game.rememberwhen;
 
 import java.io.Serializable;
 
-// POJO / Model Class for Player Entity
 public class Player implements Serializable, Comparable<Player> {
+    public String token;
     private String name;
     private int index;
     private int roomId;
     private int score;
     private int scoreDif;
     private String status;
-    public String token;
     private String response;
 
     // Default Constructor
@@ -48,9 +48,13 @@ public class Player implements Serializable, Comparable<Player> {
         this.name = name;
     }
 
-    public int getIndex() { return index; }
+    public int getIndex() {
+        return index;
+    }
 
-    public void setIndex(int index) { this.index = index; }
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     public int getRoomId() {
         return roomId;
@@ -76,12 +80,12 @@ public class Player implements Serializable, Comparable<Player> {
         this.scoreDif = scoreDif;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getStatus() {
         return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getToken() {
@@ -92,9 +96,13 @@ public class Player implements Serializable, Comparable<Player> {
         this.token = token;
     }
 
-    public void setResponse(String response){ this.response = response; }
+    public String getResponse() {
+        return this.response;
+    }
 
-    public String getResponse(){ return this.response; }
+    public void setResponse(String response) {
+        this.response = response;
+    }
 
     @Override
     public String toString() {

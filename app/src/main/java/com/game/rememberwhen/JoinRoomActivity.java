@@ -45,12 +45,9 @@ public class JoinRoomActivity extends AppCompatActivity {
         System.out.println("++++++++++++++++++++++++++++++ 1");
         /*lines below will get code from user, check if it is valid and send user to the matching room */
         final Intent intent = new Intent(this, ManageNewRoomActivity.class);
-
         EditText editText = findViewById(R.id.JoiningRoomID);
         final String userEnteredID = editText.getText().toString();
-//        HashMap<String, Object> roomData = null;
         FirebaseFirestore fs = FirebaseFirestore.getInstance();
-        ;
         final CollectionReference collectionReference = fs.collection("/rooms");
         collectionReference.document(userEnteredID).get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -95,5 +92,4 @@ public class JoinRoomActivity extends AppCompatActivity {
             }
         }));
     }
-
 }
