@@ -1,6 +1,8 @@
 # I Remember When...
 
 _I Remember When…_ is a social, “get-to-know-you”, conversation-based Android game that allows participants to share funny stories based on prompts. The game is useful as a social game for seniors both in concept and in its design.
+### Watch the Demo 
+https://www.youtube.com/watch?v=HOCaHMsrhu0
 
 ## Intended Audience
 
